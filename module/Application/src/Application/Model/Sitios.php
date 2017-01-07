@@ -1,0 +1,148 @@
+<?php
+
+namespace Application\Model;
+
+ class Sitios
+ {
+    public $LOCATION_NAME;
+    public $LOCATION;
+    public $ADDRESS;
+    public $CITY;
+    public $STATE;
+    public $ZIP;
+    public $PRIMARY_CONTACT;
+    public $PHONE;
+    public $OTHER_CONTACT;
+    public $OTHER_CONTACT_PHONE;
+    public $CRT_PHONE;
+    public $LOC_OPEN_TIME;
+    public $LOC_CLOSE_TIME;
+    public $ACCOUNT_HW;
+    public $ACCOUNT_MAINT;
+    public $ACCOUNT_SW;
+    public $ACCOUNT_OTHER;
+    public $PRIMARY_CONTACT_DEPT;
+    public $BILL_LOC;
+    public $SHIP_LOC;
+    public $LOCATION_CODE;
+    public $TABLE_NAME;
+    public $COMMENTS;
+    public $COUNTRY;
+    public $FAX;
+    public $EMAIL;
+    public $CONTAINER_VIEW;
+    public $AREACODE;
+    public $EXCHANGE;
+    public $LONGITUDE;
+    public $LATITUDE;
+    public $BUILDING_LOCATION;
+    public $UPDATED_BY;
+    public $EVENT_UPDATED;
+    public $SYSMODTIME;
+    public $COMPANY;
+    public $SYSMODCOUNT;
+    public $SYSMODUSER;
+    public $POWER_VENDOR;
+    public $PHONE_VENDOR;
+    public $MAINT_VENDOR;
+    public $WDTRAVELTIME;
+    public $WDACTTRAVELTIME;
+    public $PARENT;
+    public $LOCATION_STRUCTURE;
+    public $LOCATION_FULL_NAME;
+    public $LEVEL;
+    public $SITE_CATEGORY;
+    public $LOCOLD;
+    public $DELFLAG;
+    public $SLVL;
+    public $CORP_STRUCTURE;
+    public $TIME_ZONE;
+    public $EXTERNALNUMBER;
+    public $CRITICIDAD;
+    public $TIPO_NODO;
+    public $STATUS_FACTU;
+    public $F88;
+    public $F89;
+    public $AO;
+    public $CLARIFY;
+    public $IDTELMEX;
+    public $ID;
+    public $LOCATION_ID;
+    public $CMAN_LOCATION;
+    public $NODO;
+    public $CUSTOMER_ID;
+
+
+
+     public function exchangeArray($data)
+     {
+            $this->LOCATION_NAME	=(!empty($data['LOCATION_NAME'])) ? $data['LOCATION_NAME'] : null;
+            $this->LOCATION             =(!empty($data['LOCATION'])) ? $data['LOCATION'] : null;
+            $this->ADDRESS              =(!empty($data['ADDRESS'])) ? $data['ADDRESS'] : null;
+            $this->CITY         	=(!empty($data['CITY'])) ? $data['CITY'] : null;
+            $this->STATE                =(!empty($data['STATE'])) ? $data['STATE'] : null;
+            $this->ZIP                  =(!empty($data['ZIP'])) ? $data['ZIP'] : null;
+            $this->PRIMARY_CONTACT	=(!empty($data['PRIMARY_CONTACT'])) ? $data['PRIMARY_CONTACT'] : null;
+            $this->PHONE                =(!empty($data['PHONE'])) ? $data['PHONE'] : null;
+            $this->OTHER_CONTACT	=(!empty($data['OTHER_CONTACT'])) ? $data['OTHER_CONTACT'] : null;
+            $this->OTHER_CONTACT_PHONE	=(!empty($data['OTHER_CONTACT_PHONE'])) ? $data['OTHER_CONTACT_PHONE'] : null;
+            $this->CRT_PHONE            =(!empty($data['CRT_PHONE'])) ? $data['CRT_PHONE'] : null;
+            $this->LOC_OPEN_TIME	=(!empty($data['LOC_OPEN_TIME'])) ? $data['LOC_OPEN_TIME'] : null;
+            $this->LOC_CLOSE_TIME	=(!empty($data['LOC_CLOSE_TIME'])) ? $data['LOC_CLOSE_TIME'] : null;
+            $this->ACCOUNT_HW           =(!empty($data['ACCOUNT_HW'])) ? $data['ACCOUNT_HW'] : null;
+            $this->ACCOUNT_MAINT	=(!empty($data['ACCOUNT_MAINT'])) ? $data['ACCOUNT_MAINT'] : null;
+            $this->ACCOUNT_SW           =(!empty($data['ACCOUNT_SW'])) ? $data['ACCOUNT_SW'] : null;
+            $this->ACCOUNT_OTHER	=(!empty($data['ACCOUNT_OTHER'])) ? $data['ACCOUNT_OTHER'] : null;
+            $this->PRIMARY_CONTACT_DEPT	=(!empty($data['PRIMARY_CONTACT_DEPT'])) ? $data['PRIMARY_CONTACT_DEPT'] : null;
+            $this->BILL_LOC             =(!empty($data['BILL_LOC'])) ? $data['BILL_LOC'] : null;
+            $this->SHIP_LOC             =(!empty($data['SHIP_LOC'])) ? $data['SHIP_LOC'] : null;
+            $this->LOCATION_CODE	=(!empty($data['LOCATION_CODE'])) ? $data['LOCATION_CODE'] : null;
+            $this->TABLE_NAME           =(!empty($data['TABLE_NAME'])) ? $data['TABLE_NAME'] : null;
+            $this->COMMENTS             =(!empty($data['COMMENTS'])) ? $data['COMMENTS'] : null;
+            $this->COUNTRY              =(!empty($data['COUNTRY'])) ? $data['COUNTRY'] : null;
+            $this->FAX                  =(!empty($data['FAX'])) ? $data['FAX'] : null;
+            $this->EMAIL                =(!empty($data['EMAIL'])) ? $data['EMAIL'] : null;
+            $this->CONTAINER_VIEW	=(!empty($data['CONTAINER_VIEW'])) ? $data['CONTAINER_VIEW'] : null;
+            $this->AREACODE             =(!empty($data['AREACODE'])) ? $data['AREACODE'] : null;
+            $this->EXCHANGE             =(!empty($data['EXCHANGE'])) ? $data['EXCHANGE'] : null;
+            $this->LONGITUDE            =(!empty($data['LONGITUDE'])) ? $data['LONGITUDE'] : null;
+            $this->LATITUDE             =(!empty($data['LATITUDE'])) ? $data['LATITUDE'] : null;
+            $this->BUILDING_LOCATION	=(!empty($data['BUILDING_LOCATION'])) ? $data['BUILDING_LOCATION'] : null;
+            $this->UPDATED_BY           =(!empty($data['UPDATED_BY'])) ? $data['UPDATED_BY'] : null;
+            $this->EVENT_UPDATED	=(!empty($data['EVENT_UPDATED'])) ? $data['EVENT_UPDATED'] : null;
+            $this->SYSMODTIME           =(!empty($data['SYSMODTIME'])) ? $data['SYSMODTIME'] : null;
+            $this->COMPANY              =(!empty($data['COMPANY'])) ? $data['COMPANY'] : null;
+            $this->SYSMODCOUNT      	=(!empty($data['SYSMODCOUNT'])) ? $data['SYSMODCOUNT'] : null;
+            $this->SYSMODUSER           =(!empty($data['SYSMODUSER'])) ? $data['SYSMODUSER'] : null;
+            $this->POWER_VENDOR         =(!empty($data['POWER_VENDOR'])) ? $data['POWER_VENDOR'] : null;
+            $this->PHONE_VENDOR         =(!empty($data['PHONE_VENDOR'])) ? $data['PHONE_VENDOR'] : null;
+            $this->MAINT_VENDOR         =(!empty($data['MAINT_VENDOR'])) ? $data['MAINT_VENDOR'] : null;
+            $this->WDTRAVELTIME     	=(!empty($data['WDTRAVELTIME'])) ? $data['WDTRAVELTIME'] : null;
+            $this->WDACTTRAVELTIME	=(!empty($data['WDACTTRAVELTIME'])) ? $data['WDACTTRAVELTIME'] : null;
+            $this->PARENT               =(!empty($data['PARENT'])) ? $data['PARENT'] : null;
+            $this->LOCATION_STRUCTURE	=(!empty($data['LOCATION_STRUCTURE'])) ? $data['LOCATION_STRUCTURE'] : null;
+            $this->LOCATION_FULL_NAME	=(!empty($data['LOCATION_FULL_NAME'])) ? $data['LOCATION_FULL_NAME'] : null;
+            $this->LEVEL                =(!empty($data['LEVEL'])) ? $data['LEVEL'] : null;
+            $this->SITE_CATEGORY	=(!empty($data['SITE_CATEGORY'])) ? $data['SITE_CATEGORY'] : null;
+            $this->LOCOLD               =(!empty($data['LOCOLD'])) ? $data['LOCOLD'] : null;
+            $this->DELFLAG              =(!empty($data['DELFLAG'])) ? $data['DELFLAG'] : null;
+            $this->SLVL                 =(!empty($data['SLVL'])) ? $data['SLVL'] : null;
+            $this->CORP_STRUCTURE	=(!empty($data['CORP_STRUCTURE'])) ? $data['CORP_STRUCTURE'] : null;
+            $this->TIME_ZONE        	=(!empty($data['TIME_ZONE'])) ? $data['TIME_ZONE'] : null;
+            $this->EXTERNALNUMBER	=(!empty($data['EXTERNALNUMBER'])) ? $data['EXTERNALNUMBER'] : null;
+            $this->CRITICIDAD       	=(!empty($data['CRITICIDAD'])) ? $data['CRITICIDAD'] : null;
+            $this->TIPO_NODO            =(!empty($data['TIPO_NODO'])) ? $data['TIPO_NODO'] : null;
+            $this->STATUS_FACTU         =(!empty($data['STATUS_FACTU'])) ? $data['STATUS_FACTU'] : null;
+            $this->F88                  =(!empty($data['F88'])) ? $data['F88'] : null;
+            $this->F89                  =(!empty($data['F89'])) ? $data['F89'] : null;
+            $this->AO                   =(!empty($data['AO'])) ? $data['AO'] : null;
+            $this->CLARIFY      	=(!empty($data['CLARIFY'])) ? $data['CLARIFY'] : null;
+            $this->IDTELMEX             =(!empty($data['IDTELMEX'])) ? $data['IDTELMEX'] : null;
+            $this->ID                   =(!empty($data['ID'])) ? $data['ID'] : null;
+            $this->LOCATION_ID          =(!empty($data['LOCATION_ID'])) ? $data['LOCATION_ID'] : null;
+            $this->CMAN_LOCATION	=(!empty($data['CMAN_LOCATION'])) ? $data['CMAN_LOCATION'] : null;
+            $this->NODO                 =(!empty($data['NODO'])) ? $data['NODO'] : null;
+            $this->CUSTOMER_ID          =(!empty($data['CUSTOMER_ID'])) ? $data['CUSTOMER_ID'] : null;
+
+     }
+ }

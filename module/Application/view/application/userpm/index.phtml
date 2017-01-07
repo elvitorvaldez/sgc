@@ -1,0 +1,133 @@
+<?php //print_r($empresas);   
+
+//echo $allPM[0]['mail']; 
+            	
+
+?>        
+<div class="wrapper">   
+   <div class="container">
+      <div class="page-header">
+         <h3>Asignación de usuarios<small> Vincular un PM a una empresa</small></h3>
+      </div>
+      <!--page-header-->
+      <div class="row col-md-8 col-md-offset-2 panelUsr">         
+         <div class="box-content-user">  
+            
+         <form name="addUsrPM" id="addUsrPM" class="form-horizontal" action="<?php echo $this->url('pmuser', array('action'=>'adduser')); ?>" method="post">       
+         
+         <?php
+          	  if(!empty($idEmpresa)){
+          	  	?>
+          	  	<input type="hidden" name="COMPANY" id="COMPANY" value="<?php echo $idEmpresa; ?>"/>
+          	  	<?php
+          	  }else{
+          	 ?>      
+         	
+         <div class="titUser text-center"> <h3>Empresas</h3> </div>    	
+         	
+          <div class="controlsInput text-center"> 
+          	
+          	 <select name="COMPANY" id="COMPANY" class="chosen-select form-control xlarge" data-msg="Nombre de la compañía es obligatorio.">     
+               <option value="">- - Seleccione empresa- -</option>
+               <?php foreach ($empresas as $combo) : ?>
+               <option value="<?php echo $this->escapehtml($combo->CUSTOMER_ID);?>"><?php echo $this->escapehtml($combo->COMPANY);?></option>
+               <?php endforeach; ?>  
+             </select>
+             <?php } ?>
+             <div class="errorMessage text-danger text-center"><span id="errorCOMPANY"></span></div>
+          </div>
+         	         	 
+          <div class="titUser text-center"> <h3>Usuarios PM</h3> </div>  
+            
+           <div class="control-group-user">
+           	<?php
+           	   for ($i=0; $i < $totalPM; $i++) {
+           	 ?>  
+           	    <div class="controlsInput">  	 
+			     <input type="radio" value="<?php echo $allPM[$i]['mail']; ?>" id="userPm_<?php echo $i; ?>" name="userPm" data-msg="El usuario PM  es obligatorio."/>
+			     <label for="userPm_<?php echo $i; ?>" class="text-userPM"> <?php echo $allPM[$i]['name']; ?></label>
+			    </div> 				  
+			<?php 		     
+				}
+           	?>   
+           	<div class="errorMessage text-danger text-center"><span id="erroruserPm"></span></div>           	  
+           </div> 
+            	 
+          <div class="control-group resultUser">
+          	<span>Tu selección:</span>  
+          	<div>
+          		<span id="empresaContent">Empresa: </span><span id="empresaNomb"></span><br>           		
+          		<span id="pmContent">PM:</span> <span id="pmNomb"></span>
+            </div>
+          </div>   
+                  
+          <div class="control-group btnAddUser text-right">          
+            <button class="btn btn-info btn-enviar" type="submit" id="submitUser"><i class="fa fa-user-plus" aria-hidden="true"></i> Asignar Usuario </button>         
+          </div>    
+         </form>
+               
+        </div>
+      </div>
+      
+     
+      
+      
+   </div><!--conteiner-->      
+   
+   <div id="ark_loader-login" class="ark_loader hidden">
+	    <span>CARGANDO</span>
+			<span>
+			<div class="sk-fading-circle">
+				<div class="sk-circle1 sk-circle"></div>
+				<div class="sk-circle2 sk-circle"></div>
+				<div class="sk-circle3 sk-circle"></div>
+				<div class="sk-circle4 sk-circle"></div>
+				<div class="sk-circle5 sk-circle"></div>
+				<div class="sk-circle6 sk-circle"></div>
+				<div class="sk-circle7 sk-circle"></div>
+				<div class="sk-circle8 sk-circle"></div>
+				<div class="sk-circle9 sk-circle"></div>
+				<div class="sk-circle10 sk-circle"></div>
+				<div class="sk-circle11 sk-circle"></div>
+				<div class="sk-circle12 sk-circle"></div>
+			</div>
+		</span>  
+	</div>
+   
+      
+</div>
+<!--wrapper-->
+
+<?php 
+  echo $this->headScript()->appendFile($this->basePath('/js/userPm.js'));      
+?>
+<script>
+	/*chosen search */     
+     $(".chosen-select").chosen({        
+	  disable_search_threshold: 15,        
+	  no_results_text: "Sin resultados para: ",    
+						    
+     });
+	 
+	    
+	 $(".chosen-select").chosen().change(function() {
+       
+	    //alert($(this).text());
+	   var company = $("#COMPANY option:selected").text();    
+	   $('.resultUser').show();
+	   $('#empresaContent').show();     
+	   $('#empresaNomb').html(company);            
+				         
+     }); 
+     
+     //$(document).ready(function() {  
+     $("input[type=radio][name=userPm]").change(function () {   
+     	
+     	var namePm=$('input:radio:checked').next('label:first').html();    
+     	$('.resultUser').show();	    
+	    $('#pmContent').show();   
+	    $('#pmNomb').html(namePm);      
+     });   
+		// };
+</script>
+     

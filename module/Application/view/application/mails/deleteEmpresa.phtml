@@ -1,0 +1,131 @@
+<style>
+	.container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 90%;  
+    margin-bottom: 75px;
+}  
+.contentLogo{
+	position: relative;
+	min-height: 200px;
+	}
+.logoVsys{
+	max-width: 275px;
+	float: left;  	
+	margin-left: 10px; 
+	margin-top: 20px;   
+}
+.logoCuad{
+	max-width: 350px;
+	float: right;  
+	margin-top: 52px;  
+	 margin-right: 15px;
+}
+.page-header{
+	margin: auto;
+	max-width: 80%;	    
+	text-align: center;  
+}
+.page-body{
+	margin-left: auto;
+    margin-right: auto;
+    padding-left: 35px;
+    padding-right: 35px;  
+    margin-top: 35px;   
+    font-size: 18px;  
+    margin-bottom: 35px;     
+}
+.textResaltado{
+	color: #1F497D;
+}
+.page-footer{  
+	font-size: 12px;
+	color:#969696;       
+	margin-top: 45px;    
+	font-weight: bold;   
+}
+table {
+    border-collapse: collapse;
+    margin-top: 35px;    
+}  
+table, th, td {
+    /*border: 1px solid #558ED5;*/    
+         
+}
+th, td {
+	padding: 5px;    
+}
+.fondo-principal{	
+	/*background: #0070C0;*/	
+	color: #1f497d;  
+}
+.fondo-azul{
+	/*background: #C6D9F1;*/    
+	color: #444444;      	
+}
+</style>
+ <head>
+        <meta charset="utf-8">
+ </head>   
+         
+<div class="wrapper">
+	<div class="container">  
+		
+		<div class="contentLogo">
+			<img class="logoVsys" src="<?php echo $logoVsys;?>"  alt="Vsys">       
+			<img class="logoCuad" src="<?php echo $logoApp;?>   "  alt="Aplicativos CUAD">
+			  
+			  
+		</div>	  
+		    
+		<div class="page-header">
+			<h2>Notificación Electrónica</h2>  
+		</div>
+	    
+	    <div class="page-body">
+                <strong >Estimado(a) Administrador(a) de Services Manager: <p class="textResaltado">
+                    <!--aqui va el nombre del usuario-->
+                </p></strong> 
+                <br>
+                <br>
+	    	
+	    	<strong class="textResaltado">Sistema de Gestión CUAD informa:</strong>  
+	    	<br>
+            <br>
+	    	<p>Se ha realizado la  <strong><u> eliminación de una empresa</u></strong> para que se tomen las acciones correspondientes,  con fecha <?php echo $fecha;?>,   
+	    		 y con los siguientes datos:</p>
+	    	<br>
+            <br>	 
+	    	<table>    
+	    		<thead>
+	    		  <tr class="fondo-principal">	
+	    			<th ><strong>Nombre de la empresa:</strong></th>  
+	    			<th><strong><?php echo $nombreEmpresa;?></strong></th>
+	    		  </tr>  	
+	    		</thead>
+	    		<tbody>
+	    		
+	    		  <tr class="fondo-azul">		
+	    			<td><strong>RFC:</strong> </td>
+	    			<td><?php echo $data->CUSTOMER_ID;?></td>
+	    		 </tr> 
+	    		
+	    		</tbody>
+	    	</table>	   
+	    </div>	
+	    <br>
+        <br>    
+	    <div class="page-footer">  
+	    	<p>Este correo es informativo, favor no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes. El contenido de este correo electrónico contiene 
+	    		información confidencial, privada y está dirigida únicamente a su destinatario. La distribución tanto impresa verbal o electrónica se deberá realizar con la previa autorización del remitente. 
+	    		Su revisión, uso, o notificación por otras personas está estrictamente prohibida. Si usted no es el destinatario original o si recibe este mensaje por error, 
+	    		favor de desecharlo de su bandeja de correo. </p>
+	    </div>	
+	    	 
+		        
+	</div>
+</div>
+           
+    

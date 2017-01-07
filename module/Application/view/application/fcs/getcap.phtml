@@ -1,0 +1,11 @@
+<?php
+//print_r($caps);       
+foreach ($caps as $caps) {
+        
+   $CODIGOARR[]=array('label'=> $this->escapehtml($caps->NOMBRE),'email'=> $this->escapehtml($caps->CORREO),
+   'telefono'=> $this->escapehtml($caps->TELEFONO),'extension'=> $this->escapehtml($caps->EXTENSION),'id'=> $this->escapehtml($caps->CAP_ID));       
+   
+}
+   
+echo $CODIGO= json_encode($CODIGOARR);        
+ ?>

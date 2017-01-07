@@ -1,0 +1,362 @@
+       
+<div class="container container-fluid"> 
+	
+	<h3>Empresa: <?php echo $this->escapehtml($empresa->COMPANY);?></h3>
+	
+	<div id="accordion" class="panel-group panelDetalle">
+		
+	    <div class="panel panel-info">
+	        <div class="panel-heading">
+	            <h4 class="panel-title">    
+	                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Detalle de la Empresa <i class="fa fa-plus-square text-right acordionDetalle" aria-hidden="true"> </i></a>  
+	        </div>
+	        
+	        <div id="collapseOne" class="panel-collapse collapse">
+	            <div class="panel-body">
+	                <!--Content collapse 1-->
+	                <div class="row">
+					    <div class="col-md-2">Nombre de la compañía:</div>  
+					    <div class="col-md-8 txtResalto"><?php echo utf8_encode($empresa->COMPANY);?></div>  				    
+				    </div>
+				     <div class="row">
+					    <div class="col-md-2">R.F.C.:</div>
+					    <div class="col-md-8 txtResalto"><?php echo $this->escapehtml($empresa->CUSTOMER_ID);?></div>				    
+				    </div>
+				     <div class="row">
+					    <div class="col-md-2">Fecha de recepción en Vsys:</div>
+					    <div class="col-md-8 txtResalto"><?php echo $this->escapehtml($empresa->CUSTOMER_SINCE);?></div>				    
+				    </div>
+				     <div class="row">
+					    <div class="col-md-2">Calle y número:</div>
+					    <div class="col-md-8 txtResalto"><?php echo mb_convert_case(utf8_encode($empresa->ADDRESS1),MB_CASE_TITLE, "UTF-8");?></div>				    
+				    </div>
+				     <div class="row">
+					    <div class="col-md-2">Colonia:</div>
+					    <div class="col-md-8 txtResalto"><?php echo mb_convert_case(utf8_encode($empresa->ADDRESS2),MB_CASE_TITLE, "UTF-8");?></div>    				    
+				    </div>
+				     <div class="row">
+					    <div class="col-md-2">Código Postal:</div>
+					    <div class="col-md-8 txtResalto"><?php echo $this->escapehtml($empresa->CODE);?></div>				    
+				    </div>
+				     <div class="row">
+					    <div class="col-md-2">Municipio/Delegación:</div>
+					    <div class="col-md-8 txtResalto"><?php echo mb_convert_case(utf8_encode($empresa->ADDRESS3),MB_CASE_TITLE, "UTF-8");?></div>				    
+				    </div>
+				     <div class="row">
+					    <div class="col-md-2">Estado:</div>
+					    <div class="col-md-8 txtResalto"><?php echo mb_convert_case(utf8_encode($empresa->STATE),MB_CASE_TITLE, "UTF-8");?></div>				    
+				    </div>
+				     <div class="row">   
+					    <div class="col-md-2">Número Telefónico:</div>    
+					    <div class="col-md-8 txtResalto"><?php echo $this->escapehtml($empresa->PHONE);?></div>				    
+				    </div>
+	                      
+	            </div><!--End Content collapse 1-->
+	        </div>
+	    </div>    
+	    <div class="panel panel-info">
+	        <div class="panel-heading">
+	            <h4 class="panel-title">
+	                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Stios de la Empresa <i class="fa fa-plus-square text-right acordionDetalle" aria-hidden="true"> </i></a>
+	            </h4>
+	        </div>
+	        
+	        <div id="collapseTwo" class="panel-collapse collapse">  
+	            <div class="panel-body">
+	                 <!--Content collapse 2 tblDtallSitio table-responsive-->
+	                 
+	                 <div class="datagrid">   
+						<table  id="tableGrid" class="table table-responsive responsive table-stripe" >       
+						 <thead>
+						    <tr>
+						      <th class="text-center">Número <br>del sitio</th>
+						      <th class="text-center">Nombre</th>
+						      <th class="text-center">Fecha de <br>recepción Vsys</th>
+						      <th class="text-center">Dirección</th>						     
+						      <th class="text-center">Código <br>Postal</th>
+						      <th class="text-center">Municipio <br>/Delegación</th>
+						      <th class="text-center">Estado</th>
+						      <th class="text-center">FCS</th>   
+						    </tr>
+						  </thead>
+						  <tbody>
+                            <?php
+                            if (!empty($sitios)){ 
+                            foreach ($sitios as $tabla) : 
+                            ?>
+						    <tr>
+						      <td scope="row"><a href="<?php echo '../../sites/editar/'.$tabla['LOCATION'];?>"><?php echo $this->escapehtml($tabla["LOCATION"]);?></a></th>          
+						      <td><?php echo mb_convert_case(utf8_encode($tabla["LOCATION_NAME"]),MB_CASE_TITLE, "UTF-8");?></td>       
+						      <td><?php echo $this->escapehtml($tabla["SYSMODTIME"]);?></td>
+						      <td><?php echo mb_convert_case(utf8_encode($tabla["ADDRESS"]),MB_CASE_TITLE, "UTF-8");?></td>     
+						      <td><?php echo $this->escapehtml($tabla["ZIP"]);?></td>
+						      <td><?php echo mb_convert_case(utf8_encode($tabla["CITY"]),MB_CASE_TITLE, "UTF-8");?></td>  
+						      <td><?php echo mb_convert_case(utf8_encode($tabla["STATE"]),MB_CASE_TITLE, "UTF-8");?></td>  
+						      <td>
+						      	 <?php 
+						      	 foreach($tabla["FCSS"] as $fcss){
+						      	 	echo "<a href='".$this->url('fcs', array('action'=>'detalle', 'id' => $fcss->SOLICITUD_ID))."'>".$fcss->FOLIO."</a><br>";      
+						      	 }
+						      	 
+						      	 ?>  
+                              </td>
+						    </tr>
+						   <?php 
+						   endforeach; 
+						    }
+						   ?>
+						  </tbody>
+						</table>
+				     </div>
+	                 
+	                 
+	            </div><!--End Content collapse 2-->
+	        </div>
+	    </div>   
+	        	    
+	    <div class="panel panel-info">
+		    <div class="panel-heading">    
+		      <h4 class="panel-title">
+		        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+		         Involucrados     
+		           <i class="fa fa-plus-square text-right acordionDetalle" aria-hidden="true"> </i>
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseThree" class="panel-collapse collapse">
+		       <div class="panel-body">	  
+		      	  
+		      	  <div class="row"> 
+		      	  	<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">PM</h3>  
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div>
+					
+					<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">Supervisor Implementación</h3>   
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div>  
+					
+					<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">Implementador</h3>
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div>  
+					
+					<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">Cap</h3>
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div>
+					
+					<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">Comercial</h3>  
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div>  
+		      	 
+		      	  </div>  
+		      	  
+		      	  <div class="row">
+		      	  	
+		      	  	<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">Gerente Red Administrada</h3>  
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div> 
+					
+					<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">Gerente de Área </h3>  
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div> 
+					
+					<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">Supervisor Ingeniería de Campo</h3>     
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div> 
+					
+					<div class="panel panel-primary panel-involucrados">
+					    <div class="panel-heading">
+					        <h3 class="panel-title text-center">Consultor</h3>  
+					    </div>
+					    <div class="panel-body">
+					    	Nombre<br>
+					    	Teléfono<br>
+					    	Correo<br>
+                        </div>
+					</div> 
+					
+		      	  </div>	
+		      	  
+		       </div>
+		    </div>
+		 </div>
+		 
+		 
+		 <div class="panel panel-info">
+            <div class="panel-heading">    
+              <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                 Documentos    
+                   <i class="fa fa-plus-square text-right acordionDetalle" aria-hidden="true"> </i>
+                </a>
+              </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+               <div class="panel-body">  
+  
+                <!--<div class="row"> </div> --> 
+
+                    <div>  
+                        <div class="panel with-nav-tabs panel-info">
+                            <div class="panel-heading">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab1info" data-toggle="tab">PM</a></li>
+                                        <li><a href="#tab2info" data-toggle="tab">Ingeniería</a></li>
+                                        <li><a href="#tab3info" data-toggle="tab">Implementaciones</a></li>
+                                              
+                                    </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade in active" id="tab1info">
+                                    
+                                    <table class="table table-hover">
+									    <thead>
+									      <tr>
+									        <th>Nombre</th>
+									        <th>Tipo de Documento</th>
+									        <th>Fecha</th>
+									        <th>Subido Por</th>
+									        <th>Descargar</th>
+									      </tr>
+									    </thead>
+									    <tbody>
+									     <?php foreach ($documentos as $result) {  ?>  	
+									      <tr>
+									        <td> <?php echo $result->NOMBRE; ?></td>
+									        <td><?php echo $result->TIPO; ?></td>
+									        <td> <?php echo $result->FECHA; ?></td>
+									        <td> <?php echo $result->CARGADO_POR; ?></td>
+									        <td>  
+									          <a target="_blank" href="<?php echo $result->RUTA.$result->NOMBRE; ?>">            
+                                               <span class="btn-document-link btn-success"><i class="fa fa-download" aria-hidden="true"></i></span>
+                                              </a>
+                                            </td>    
+									      </tr>    
+									     <?php  } ?>        
+									    </tbody>
+									 </table> 
+                                    	
+                                     
+                                    	  
+                                      	        
+                                    	
+                                    </div>
+                                    <div class="tab-pane fade" id="tab2info">
+                                    	Info 2
+                                    </div>
+                                    <div class="tab-pane fade" id="tab3info">
+                                    	Info 3
+                                    </div>
+                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+
+
+
+                  
+               </div>
+            </div>
+         </div>
+	    
+	    
+	    
+	</div><!--panelDetalle-->  
+	
+	<div class="clearBoth"></div>   
+        
+        	     
+</div>	<!--end container-->  
+
+<script type="text/javascript">
+		(function(){
+				//$("table").dataTable();
+				
+				/*tabla Grid*/
+			   $('#tableGrid').DataTable( {   
+			       /* "scrollX": true,*/     
+			        "language": {
+			                "sProcessing":     "Procesando...",
+			                "sLengthMenu":     "Mostrar _MENU_ registros",
+			                "sZeroRecords":    "No se encontraron resultados",
+			                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+			                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+			                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+			                "sInfoPostFix":    "",
+			                "sSearch":         "Buscar:",
+			                "sUrl":            "",
+			                "sInfoThousands":  ",",
+			                "sLoadingRecords": "Cargando...",
+			                "oPaginate": {
+			                    "sFirst":    "Primero",
+			                    "sLast":     "Último",
+			                    "sNext":     "Siguiente",
+			                    "sPrevious": "Anterior"
+			                },
+			                "oAria": {
+			                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+			                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+			                }
+			          }   
+			    } );
+				
+			})(this);
+		</script>  

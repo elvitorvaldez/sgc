@@ -1,0 +1,851 @@
+<?php //print_r($serviciosasoc); ?>    
+<div class="wrapper">   
+   <div class="container">
+      <div class="page-header">
+         <h3>Alta de FCS<small> Datos para dar de alta un formato de compra servicio</small></h3>
+      </div>
+      <!--page-header-->
+      <div class="row">
+         <div class="box-content">
+             
+             
+             <?php
+           
+             $r=explode('/',$_SERVER['REQUEST_URI']);
+          
+             if (sizeof($r)==6)
+             {  
+                 $idFcs=$r[5];
+             }
+             
+             if (!empty($idFcs)){							  							
+							//$idCustomer=$this->url."('enterprise',array('action'=>'save','id'=>'".$this->escapehtml($empresa->CUSTOMER_ID)."'))";
+							 
+                    $idLocation = $this->url('fcs', array('action'=>'save', 'id' => $idFcs));
+					
+					$readOnly="readonly";
+					$linkServices="../getservicios";
+				    $linkCap="../getcap";
+					
+						}else{
+							$idLocation = $this->url('fcs', array('action'=>'save'));
+							$linkServices="getservicios";
+							$linkCap="getcap";
+						} ?> 
+           <form name="fcs" id="fcs" class="form-horizontal" action="<?php echo $idLocation;?>" method="post">                      
+               <div class="control-group">
+                  <label class="control-label">Nombre de la compañía:</label>
+                  <div class="controlsInput">
+                       
+                        <?php
+                        
+                        if (!empty($fcss->COMPANY)) { 
+						?>
+				     		<label class="xlarge">
+								<?php echo "<h4>$this->escapehtml($fcss->COMPANY)</h4>"; ?>
+							</label>
+			                        <?php }else {?>
+                         <select name="COMPANY" id="COMPANY" class="chosen-select form-control xlarge" data-msg="Nombre de la compañía es obligatorio.">     
+                             <option value="">- - Seleccione empresa- -</option>
+                             <?php foreach ($empresas as $combo) : ?>
+                             <option value="<?php echo $this->escapehtml($combo->COMPANY);?>"><?php echo $this->escapehtml($combo->COMPANY);?></option>
+                             <?php endforeach; ?>
+                         </select>
+                                                   
+                        <?php }?>                        
+                      <div class="errorMessage text-danger text-center"><span id="errorCOMPANY"></span></div>
+                     
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Nombre del sitio:</label>
+                  <div class="controlsInput">
+                    
+                      <?php if (!empty($fcss->LOCATION_NAME)) { 
+					  ?>
+					   <label class="xlarge">    
+					    <?php echo "<h4>$this->escapehtml($fcss->LOCATION_NAME)</h4>"; ?>
+					     </label>
+                       <?php } else {?>
+                         <select name="LOCATION_NAME" id="LOCATION_NAME" class="form-control xlarge" data-msg="Nombre del sitio es obligatorio.">
+                             <option value="">- - Seleccione sitio- -</option>  
+                                                 
+                         </select>
+                        <?php }?>
+                   
+                      <div class="errorMessage text-danger text-center"><span id="errorLOCATION_NAME"></span></div>
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Número del sitio:</label>
+                  <div class="controlsInput">
+                    
+                        <?php if (!empty($fcss->LOCATION_ID)) { ?>
+                          <label class="xlarge">	  
+						   <?php echo "<h4>$this->escapehtml($fcss->LOCATION_ID)</h4>"; ?>
+						  </label> 
+                       <?php }else { ?>   
+                         <input type="text" name="LOCATION" id="LOCATION" class="form-control xlarge" data-msg="El número del sitio es obligatorio.">
+                         <div class="errorMessage text-danger text-center"><span id="errorLOCATION"></span></div>   
+                        <?php }?>                    
+                      
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Tipo de servicio:</label>
+                  <div class="controlsInput">
+                     <select class="form-control xlarge" id="SERVICIO_ID" name="SERVICIO_ID" data-msg="El tipo de servicio es obligatorio.">
+                        <option value="">Seleccione una opción...</option>
+                        <option value="1" <?php if (!empty($fcss->SERVICIO_ID) and $fcss->SERVICIO_ID=='1') {echo "selected";} ?> >CUAD-CISCO</option>
+                        <option value="2" <?php if (!empty($fcss->SERVICIO_ID) and $fcss->SERVICIO_ID=='2') {echo "selected";} ?>>CUAD-BROADSOFT</option>
+                     </select>
+                  </div>
+                  <div class="errorMessage text-danger text-center"><span id="errorSERVICIO_ID"></span></div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Folio:</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="FOLIO" name="FOLIO" value="<?php if (!empty($fcss->FOLIO)) { echo $this->escapehtml($fcss->FOLIO); } ?>"
+                     <?php if (empty($fcss->FOLIO)) { echo 'onblur="aMays(event, this);buscaFolio()"'; } ?> data-msg="El folio es obligatorio.">       
+                   
+                  <div class="errorMessage text-danger text-center"><span id="errorFOLIO"></span></div>
+                           
+              	
+              	<div class="text-success text-center hidden" id="check">   
+                	<span id="error">      
+                		<span><i  class="fa fa-check text-center" aria-hidden="true" ></i> <strong> FOLIO disponible</strong></span>    
+                	</span>  
+                </div>
+                
+            	<div class="errorMessage text-danger text-center hidden"  id="times">  
+              		<span id="errorCUSTOMER_ID">               
+               			<span><i class="fa fa-times text-center" aria-hidden="true"></i> <strong> FOLIO ya registrado</strong></span>           
+             		 </span>              
+           		 </div>  
+                                  
+              </div> <!--controlsInput-->         
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Fecha de emisión:</label>
+                  <div class="controlsInput">
+                    <?php if (!empty($fcss->FECHAEMISION)) { 
+                                                            
+	                    $date = date_create($fcss->FECHAEMISION);
+	                    $fecha=date_format($date, 'm/d/Y');                                                           
+                    } ?>
+                                                            
+				    <input type="text" class="form-control xlarge datepicker" id="FECHAEMISION" name="FECHAEMISION" value="<?php if (!empty($fcss->FECHAEMISION)) { echo $fecha; } ?>" data-msg="La fecha es obligatoria."> 
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">QO:</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="QO" name="QO" value="<?php if (!empty($fcss->QO)) { echo $this->escapehtml($fcss->QO); } ?>" data-msg="El QO es obligatorio.">     
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Cotización:</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="COTIZACION" name="COTIZACION" value="<?php if (!empty($fcss->COTIZACION)) { echo $this->escapehtml($fcss->COTIZACION); } ?>" data-msg="La Cotización es obligatoria.">     
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Orden aprovisionamiento:</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="ORDENAPROVISIONAMIENTO" name="ORDENAPROVISIONAMIENTO" value="<?php if (!empty($fcss->ORDENAPROVISIONAMIENTO)) { echo $this->escapehtml($fcss->ORDENAPROVISIONAMIENTO); } ?>" data-msg="La orden de aprovisionamiento es obligatoria.">     
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Nombre del CAP:</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge autocompleteCatCap" id="NOMBRECAP" name="NOMBRECAP" value="<?php if (!empty($fcss->CAP_NOMBRE)) { echo $this->escapehtml($fcss->CAP_NOMBRE); } ?>" data-msg="El nombre del CAP es obligatorio.">                            
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">E-mail CAP:</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="EMAILCAP" name="EMAILCAP" value="<?php if (!empty($fcss->CAP_CORREO)) { echo $this->escapehtml($fcss->CAP_CORREO); } ?>" data-msg="El email del CAP es obligatorio">     
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Tel. CAP:</label>  
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="TELCAP" name="TELCAP" value="<?php if (!empty($fcss->CAP_TELEFONO)) { echo $this->escapehtml($fcss->CAP_TELEFONO); } ?>" data-msg="El telefono del CAP es obligatorio">     
+                  </div>    
+               </div>
+                <div class="control-group">
+                  <label class="control-label">Ext. CAP:</label>  
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="EXTCAP" name="EXTCAP" value="<?php if (!empty($fcss->CAP_EXTENSION)) { echo $this->escapehtml($fcss->CAP_EXTENSION); } ?>">     
+                  </div>
+               </div>
+                <input type="hidden" class="form-control xlarge" id="CAP_ID" name="CAP_ID" value="<?php if (!empty($fcss->CAP_ID)) { echo $this->escapehtml($fcss->CAP_ID); } ?>">    
+               <div class="control-group">
+                  <label class="control-label">Responsable de instalación(en sitio):</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="RESPONSABLEINSTALACION" name="RESPONSABLEINSTALACION" value="<?php if (!empty($fcss->RESPONSABLEINSTALACION)) { echo $this->escapehtml($fcss->RESPONSABLEINSTALACION); } ?>" data-msg="El responsable de la instalación es obligatorio">     
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Tel. resp. en sitio:</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="TELRESPSITIO" name="TELRESPSITIO" value="<?php if (!empty($fcss->TELRESPSITIO)) { echo $this->escapehtml($fcss->TELRESPSITIO); } ?>" data-msg="El tel. resp. en sitio del CAP es obligatorio">       
+                  </div>
+               </div>
+               <div class="control-group">
+                  <label class="control-label">Caso de instalación:</label>
+                  <div class="controlsInput">
+                     <input type="text" class="form-control xlarge" id="CASOINSTALACION" name="CASOINSTALACION" value="<?php if (!empty($fcss->CASOINSTALACION)) { echo $this->escapehtml($fcss->CASOINSTALACION); } ?>">     
+                  </div>
+               </div>  
+                
+               <div class="control-group text-center">
+               	 <h3>Servicios que se compran</h3>                 	
+               </div>      
+                 
+                 <div id="contentServicios">      
+                 <!--Si existe servicios al editar-->
+                 	
+                   <?php 
+                
+				   $tmp = (array) $serviciosasoc;   
+                      
+                    if (!empty($tmp) ){                  
+                        
+				     $i=0;
+					      // print_r($serviciosasoc);
+                      foreach ((array)$serviciosasoc as $serviciosasoc) {  
+                      	$numId =$i;	
+						$nextNumId=$i;   
+						
+					   	
+					  if($i < 10){  
+						$numId = "0".$i;
+						$nextNumId = "0".$numId+1;
+						//$nextNumId = "0".$numId;   
+					} 	
+					
+					 	
+					 $idTblServices="tblServices_".$numId;	  
+					 $idParte="idparte_".$numId;  
+					 $numParte="numparte_".$numId;
+					 $numParteLabel="numparteLabel_".$numId;
+					 $idParteBase="idparte_".$nextNumId;  
+					 $numParteBase="numparte_".$nextNumId;
+					 $numParteBaseLabel="numparteLabel_".$nextNumId;  	
+					 $idTblServicesBase="tblServices_".$nextNumId ;
+					 
+					// $idTblServices="tblServices_".$numId;
+                      	?>
+                               <div id="<?php echo $idTblServices; ?>" class="control-group tblServises">      
+				             	
+				                <div class="col-md-3 text-center">     
+			                		<label class="text-center">Número de parte</label>
+			                		<input type="text" id="<?php echo $numParteLabel; ?>"  class="form-control autocompleteNumParte numparteLabel" value="<?php echo $serviciosasoc["CODIGO"]; ?>">
+			                		<input type="hidden" id="<?php echo $numParte; ?>"  name="numParte[]" class="numparte" value="<?php echo $serviciosasoc["CODIGO"]; ?>">  
+			                		<input type="hidden" name="idParte[]" id="<?php echo $idParte; ?>" class="idparte" value="<?php echo $serviciosasoc["CATSERVICIO_ID"]; ?>" />
+			                		
+			                	</div>  
+			                	<div class="col-md-3 text-center">  
+			                		<label class="text-center">Id Componente</label>
+			                		<input type="text" name="idComponente[]" class="form-control idComponente" id="idComponente_00" value="<?php echo $serviciosasoc["ID_COMPONENTE"]; ?>">
+			                		
+			                	</div>   
+			                	<div class="col-md-3 text-center">
+			                	    <label class="text-center">Cantidad</label>	
+			                		<input type="text" name="cantidad[]" class="form-control cantidad" id="cantidad_00" value="<?php echo $serviciosasoc["CANTIDAD"]; ?>">  
+			                	</div>
+			                	 <div class="col-md-2 text-center">  
+			                        <label class="text-center">Precio</label>   
+			                        <input type="text" name="precio[]" class="form-control precio" id="precio_00" value="<?php echo $serviciosasoc["PRECIO"]; ?>">
+			                    </div>
+			                    <div class="col-md-1 text-center eliminarFila">       
+			                        <label class="text-center ">Acción</label><br>         
+			                        <a class="btn-accion btn-danger">  
+			                            <i class="halflings-icon fa fa-times"></i>     
+			                        </a> 
+			                    </div>
+			                      
+			                  </div>  
+			                
+                      	<?php
+                      	  $i++;
+	                    
+                      }
+                      $numInicializa=$i-1;   
+                      ?>
+                       
+				     
+                     <?php 
+                    
+					}else{
+						   
+					 $idTblServices="tblServices_00";
+					 $idTblServicesBase="tblServices_01";
+					 $idParte="idparte_00";
+					 $numParte="numparte_00";
+					 $numParteLabel="numparteLabel_00";
+					 $idParteBase="idparte_01";  
+					 $numParteBase="numparte_01";
+					 $numParteBaseLabel="numparteLabel_01";
+					 $numInicializa=0;  
+					 ?>
+					   <!--Div Dinamico-->
+	            
+	             <div id="<?php echo  $idTblServices; ?>" class="control-group tblServises">         
+	             	
+	                <div class="col-md-3 text-center">   
+                		<label class="text-center">Número de parte</label>
+                		<input type="text" id="<?php echo $numParteLabel; ?>"  class="form-control autocompleteNumParte numparteLabel">  
+                		<input type="hidden" id="<?php echo $numParte; ?>"  name="numParte[]" class="numparte">      
+                		<input type="hidden" name="idParte[]" id="<?php echo $idParte; ?>" class="idparte firstInput" />  
+                		
+                	</div>  
+                	<div class="col-md-3 text-center">
+                		<label class="text-center">Id Componente</label>
+                		<input type="text" name="idComponente[]" class="form-control idComponente" id="idComponente_00">
+                		
+                	</div>   
+                	<div class="col-md-3 text-center">
+                	    <label class="text-center">Cantidad</label>	
+                		<input type="text" name="cantidad[]" class="form-control cantidad" id="cantidad_00">  
+                	</div>
+                	 <div class="col-md-2 text-center">  
+                        <label class="text-center">Precio</label>   
+                        <input type="text" name="precio[]" class="form-control precio" id="precio_00">
+                    </div>
+                    <div class="col-md-1 text-center eliminarFila hidden">       
+                        <label class="text-center ">Acción</label><br>         
+                        <a class="btn-accion btn-danger">  
+                            <i class="halflings-icon fa fa-times"></i>     
+                        </a> 
+                    </div>  
+                 </div>  
+                 
+	            
+					 <?php 
+					} 
+                   ?>
+                  <!--Si existe servicios al editar-->
+                
+                
+                <!--fila Base-->
+                     
+	             <div id="<?php echo  $idTblServicesBase; ?>" class="control-group fila-base">          
+	             	
+	                <div class="col-md-3 text-center">   
+                		<label class="text-center">Número de parte</label>   
+                		<input type="text" id="<?php echo $numParteBaseLabel; ?>" class="form-control autocompleteNumParte numparteLabel">
+                		<input type="hidden" id="<?php echo $numParteBase; ?>"  class="numparte">
+                		<input type="hidden"  id="<?php echo $idParteBase; ?>" class="idparte" />  
+                		
+                	</div>  
+                	<div class="col-md-3 text-center">
+                		<label class="text-center">Id Componente</label>
+                		<input type="text"  class="form-control idComponente" id="idComponente_00">
+                		
+                	</div>   
+                	<div class="col-md-3 text-center">
+                	    <label class="text-center">Cantidad</label>	
+                		<input type="text"  class="form-control cantidad" id="cantidad_00">  
+                	</div>
+                	 <div class="col-md-2 text-center">  
+                        <label class="text-center">Precio</label>   
+                        <input type="text"  class="form-control precio" id="precio_00">
+                    </div>
+                    <div class="col-md-1 text-center eliminarFila hidden">       
+                        <label class="text-center ">Acción</label><br>         
+                        <a class="btn-accion btn-danger">  
+                            <i class="halflings-icon fa fa-times"></i>     
+                        </a> 
+                    </div>  
+                 </div>  
+               
+               </div>  <!--contentServicios-->   
+	           
+               
+	              
+	            
+	            
+               <div class="control-group text-right">      
+                 <div class="col-md-13 text-right">    
+	                   
+                	<a id="btnAdd" class="btn-accion btn-success">     
+	                  <i class="halflings-icon fa fa-plus"></i>  
+	                </a>           
+                  <!--</div>
+                  <div class="col-md-1 text-center eliminarFila">-->                          
+                </div>
+               </div>  
+                       
+	             
+	             
+	              
+                
+                
+               <div class="control-group btnsSend text-right">     
+                  <button class="btn btn-success btn-enviar" type="submit">Guardar</button>        
+                  <a href="<?php echo $this->url('fcss'); ?>" class="btn btn-default btn-enviar" type="button">Cancelar</a>  
+               </div>
+            </form>
+         </div>
+      </div>
+      
+      
+          <!--Modal Catalogo servicios-->
+          
+          <div class="bd-example">       
+  
+		  <div class="modal fade" id="modalCatalogoServ" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">   
+		    <div class="modal-dialog" role="document">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		            <span aria-hidden="true">&times;</span>
+		          </button>
+		          <h4 class="modal-title" id="exampleModalLabel">Agregar al catálogo de servicios</h4>
+		        </div>
+		        <div class="modal-body">
+		          <form name="catServicios" id="catServicios" class="form-horizontal" action="<?php echo $this->url('fcs', array('action'=>'saveCatServices')); ?>" method="post">  
+		            <div class="form-group">
+		              <label  class="form-control-label">Número de parte:</label>
+		              <input type="text" class="form-control" id="CODIGO" name="CODIGO" data-msg="El código es obligatorio">
+		              <div class="errorMessage text-danger text-center"><span id="errorCODIGO"></span></div>
+		            </div>
+		            <div class="form-group">
+		              <label  class="form-control-label">Descripción :</label>
+		              <input type="text" class="form-control" id="DESCRIPCION" name="DESCRIPCION" data-msg="La descripción es obligatorio">
+		              <div class="errorMessage text-danger text-center"><span id="errorDESCRIPCION"></span></div>
+		            </div>
+		            <div class="form-group">
+		              <label  class="form-control-label">Tipo de servicio:</label>
+		               <select class="form-control" id="TIPOSERVICIO" name="TIPOSERVICIO" data-msg="El tipo de servicio es obligatorio ">
+                        <option value="">Seleccione una opción...</option>
+                        <option value="1">CUAD-CISCO</option>
+                        <option value="2"> CUAD-BROADSOFT</option>   
+                     </select>
+                     	<div class="errorMessage text-danger text-center"><span id="errorTIPOSERVICIO"></span></div>
+		            </div>
+		            
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		          <button  type="submit" id="btnSendServices" class="btn btn-success">Guardar</button>       
+		        </div>
+		      </form>  
+		      </div>
+		    </div>
+		  </div>
+		</div>   
+         <!--Modal Catalogo servicios-->  
+      
+      
+   </div><!--conteiner-->      
+   
+   <div id="ark_loader-login" class="ark_loader hidden">
+	    <span>CARGANDO</span>
+			<span>
+			<div class="sk-fading-circle">
+				<div class="sk-circle1 sk-circle"></div>
+				<div class="sk-circle2 sk-circle"></div>
+				<div class="sk-circle3 sk-circle"></div>
+				<div class="sk-circle4 sk-circle"></div>
+				<div class="sk-circle5 sk-circle"></div>
+				<div class="sk-circle6 sk-circle"></div>
+				<div class="sk-circle7 sk-circle"></div>
+				<div class="sk-circle8 sk-circle"></div>
+				<div class="sk-circle9 sk-circle"></div>
+				<div class="sk-circle10 sk-circle"></div>
+				<div class="sk-circle11 sk-circle"></div>
+				<div class="sk-circle12 sk-circle"></div>
+			</div>
+		</span>  
+	</div>
+   
+   
+   <!--container-->
+</div>
+<!--wrapper-->
+
+ <?php 
+ echo $this->headScript()->appendFile($this->basePath('/js/fcs.js'));    
+    ?>
+
+<script type="text/javascript">
+ 
+ /*Ajax cat Servicios*/      
+(function(){
+        /*Ajax cat Servicios*/
+ var catServicesModule=(function(){
+        return {  
+   "init": function(){  
+                this.validate();
+            },
+    "validate": function(){   
+             var form=$("#catServicios");   
+             $("#catServicios").validate({
+      
+    "rules": {           
+            "CODIGO": { "required": true},       
+            "DESCRIPCION": { "required": true},
+            "TIPOSERVICIO": { "required": true},                              
+             },
+    "errorPlacement": function ($error, $element) {
+            var name = $element.attr("name");
+                            
+            $("#error" + name).append($error);
+                              
+            },         
+ 
+    "submitHandler": function(form) {
+        $.ajax({
+            type: "POST",
+            url: $(form).attr('action'),
+            data: $(form).serialize(),
+            'beforeSend': function(){   
+                 //$("#ark_loader-login").removeClass("hidden");
+                 //$("#submitLogin").addClass("disabled");
+                 //$("#submitLogin").attr("disabled","disabled");
+             },
+            "complete": function(){
+                 //$("#ark_loader-login").addClass("hidden");
+                 //$("#submitLogin").removeClass("disabled");
+                 //$("#submitLogin").removeAttr("disabled");  
+            },
+             "error": function(error) {                              
+                 alertify.error('Error al guardar el Servicio');
+            },
+            "success":function(data){
+                 if (data.success === true) {    
+                    
+                    alertify.success(data.message);
+                    $("<?php echo "#".$idParte; ?>").val(data.id);  
+                   $("<?php echo "#".$numParteLabel; ?>").attr('disabled', 'disabled');   
+                    $('#modalCatalogoServ').modal('toggle');  
+                         } else {
+                                      
+                      alertify.error(data.message);
+                                     
+               }
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    })();
+    catServicesModule.init();
+      
+}(this));  
+/*Ajax cat Servicios*/
+ var typeService = "";  
+         
+   $(".autocompleteCatCap").autocomplete({   	  
+    source:  function( request, response ) {    
+            
+    $.ajax({
+      url: "<?php echo $linkCap; ?>",   
+      method: "POST",  
+      data: {query: request.term},  
+      dataType: "json",
+      success: function( data ) {           
+              response(data);                  
+         }//end success
+     });//end ajax   
+   },//end source
+   search: function (e, u) {
+        $(this).addClass('loader');
+   },
+   response: function (e, u) {
+        $(this).removeClass('loader');  
+   },
+   select: function(event, ui) {
+        event.preventDefault();
+           
+        $("#NOMBRECAP").val(ui.item.label);  
+        $("#EMAILCAP").val(ui.item.email);
+        $("#TELCAP").val(ui.item.telefono);
+        $("#EXTCAP").val(ui.item.extension);
+        $("#CAP_ID").val(ui.item.id);    
+               
+    }, //end select  
+     focus: function(event, ui) {
+        event.preventDefault();
+         $("#CAP_ID").val();     
+   }//end focus   
+ 
+  }); //end autocomplete Cat Cap   
+   
+   
+   $(".autocompleteNumParte").autocomplete({   	  
+    source:  function( request, response ) {
+    typeService = $("#SERVICIO_ID").val();
+    if(typeService!=""){
+    	typeService="/"+typeService;
+    }  
+   	//alert(typeService);        
+    $.ajax({
+      url: "<?php echo $linkServices; ?>"+typeService,   
+      method: "POST",  
+      data: {query: request.term},  
+      dataType: "json",
+      success: function( data ) {           
+        response(data);                  
+       }//end success
+     });//end ajax   
+   },//end source
+   search: function (e, u) {
+        $(this).addClass('loader');
+   },
+   response: function (e, u) {
+        $(this).removeClass('loader');  
+   },
+   select: function(event, ui) {
+        event.preventDefault();
+        $("<?php echo "#".$numParteLabel; ?>").val(ui.item.label);
+        $("<?php echo "#".$numParte; ?>").val(ui.item.label);  
+        $("<?php echo "#".$idParte; ?>").val(ui.item.value);     
+                
+    }, //end select  
+  focus: function(event, ui) {   
+        event.preventDefault();
+        $("<?php echo "#".$numParteLabel; ?>").val(ui.item.label);
+        $("<?php echo "#".$numParte; ?>").val(ui.item.label);  
+        $("<?php echo "#".$idParte; ?>").val(ui.item.value);  
+                  
+   },//end focus        
+   
+   
+  });/*.blur(function() {
+     newNumPart=$("<?php //echo "#".$numParteLabel; ?>/*").val();     
+     idNum=$("<?php //echo "#".$idParte; ?>/*").val();
+      /*if(newNumPart!=""){       
+       if(!idNum){
+       	  typeServices=$("#SERVICIO_ID").val();
+       	$("#CODIGO").val(newNumPart);
+       	//alert(typeServices);    
+       	if(typeServices!=""){
+       	   $("#TIPOSERVICIO option[value='"+typeServices+"']").attr('selected', 'selected');                          
+        }      
+       	$('#modalCatalogoServ').modal('show');     
+       	
+       }  
+      }   
+  }); //end autocomplete*/    
+ 
+       
+   (function(){
+   	//$("table").dataTable();
+   	  
+       /*accion agregrar filas*/  
+       var current_id = <?php echo $numInicializa; ?>;         
+       
+       var num = $('.tblServises').length;
+       
+       $('#SERVICIO_ID').on('change', function() {
+       	 this.value;  
+		  //alert( this.value ); // or $(this).val()   
+	   });
+       
+      
+       $('#btnAdd').click(function() {       	 
+          nextElement($('#<?php echo  $idTblServicesBase; ?>'));    
+                         
+       });
+   	   
+   	  
+       
+       // Evento que selecciona la fila y la elimina 
+      $(document).on("click",".eliminarFila",function(){   
+      	       
+      	     var num = $('.tblServises').length;
+      	            	           
+             if (num<=2){
+             	$(".firstInput").prop('disabled', false);           
+             	$("#numparteLabel_00").prop('disabled', false);   
+             	}     
+             var parent = $(this).parent().get(0);
+             var numparteActual=$(parent).find(".numparteLabel");                        
+             var idActualNumParte=$(numparteActual).attr("id"); 
+             var patron="numparteLabel_";
+             numId=idActualNumParte.replace(patron,'');
+             numId=numId-1;
+             if(numId <10)numId = "0"+numId;               
+               activar=patron+numId;          
+              $("#"+activar).prop('disabled', false);  
+                              
+             $(parent).remove();       
+         });  
+        
+       
+    function nextElement(element){
+    	
+    	//console.log(element);         	
+        //$('.eliminarFila').show();  
+           
+        //element.addClass("tblServises");         
+        var newElement = element.clone().removeClass('fila-base').addClass("tblServises");     
+        var id = current_id+1;
+        current_id = id;
+        id=id+1    
+          
+        if(id <10)id = "0"+id;
+        newElement.attr("id",element.attr("id").split("_")[0]+"_"+id);
+        
+        var field = $('.numparteLabel', newElement).attr("id");
+        var numparteLabel=field.split("_")[0]+"_"+id;  
+                
+        $('.numparteLabel', newElement).attr("id", numparteLabel);
+        
+        var fieldnP = $('.numparte', newElement).attr("id");
+        var numparte=fieldnP.split("_")[0]+"_"+id;     
+                
+        $('.numparte', newElement).attr("id", numparte); 
+        $('.numparte', newElement).attr("name", "numParte[]"); 
+        
+         
+          
+        var field2 = $('.idparte', newElement).attr("id");
+        var idparte=field2.split("_")[0]+"_"+id
+        
+        $('.idparte', newElement).attr("id",idparte);   
+        $('.idparte', newElement).attr("name","idParte[]");    
+        
+        var field3 = $('.idComponente', newElement).attr("id");
+        var idComponente=field3.split("_")[0]+"_"+id
+           
+        $('.idComponente', newElement).attr("id",idComponente);
+        $('.idComponente', newElement).attr("name","idComponente[]");
+          
+        var field4 = $('.cantidad', newElement).attr("id");
+        var cantidad=field4.split("_")[0]+"_"+id
+        
+        $('.cantidad', newElement).attr("id",cantidad);
+         $('.cantidad', newElement).attr("name","cantidad[]");
+         
+        
+        var field5 = $('.precio', newElement).attr("id");
+        var precio=field5.split("_")[0]+"_"+id
+        
+        $('.precio', newElement).attr("id",precio);  
+        $('.precio', newElement).attr("name","precio[]");      
+      
+        
+        newElement.find("input:text").val("");
+        newElement.find(".eliminarFila").removeClass("hidden");             
+        newElement.appendTo($("#contentServicios"));        
+          
+             
+        id=id-1;  
+        
+        if(id <10)id = "0"+id;
+          
+        var anterioNumParteLabel=field.split("_")[0]+"_"+id;
+         
+         $("#numparteLabel_00").attr('disabled', 'disabled');     
+         $("#"+anterioNumParteLabel).attr('disabled', 'disabled'); 
+         $("#"+numparteLabel).prop('disabled', false);         
+                    
+            
+       
+         $(".autocompleteNumParte").autocomplete({
+			    source:  function( request, response ) {   
+			    typeService = $("#SERVICIO_ID").val();
+			    if(typeService!=""){
+			    	typeService="/"+typeService;
+			    }     	
+			    $.ajax({
+			      url: "<?php echo $linkServices; ?>"+typeService,  
+			      method: "POST",  
+			      data: {query: request.term},  
+			      dataType: "json",
+			      success: function( data ) {           
+			           response(data);                  
+			         }//end success
+			     });//end ajax   
+			   },//end source
+			   search: function (e, u) {
+			        $(this).addClass('loader');
+			   },
+			   response: function (e, u) {
+			        $(this).removeClass('loader');  
+			   },
+			  select: function(event, ui) {
+		        event.preventDefault();  		        
+		        $("#"+numparteLabel).val(ui.item.label);  
+		        $("#"+numparte).val(ui.item.label);  
+		        $("#"+idparte).val(ui.item.value);
+		            
+		    },
+		    focus: function(event, ui) {
+		        event.preventDefault();
+		        $("#"+numparte).val(ui.item.label);     
+		    },     
+			
+			 });/*.blur(function() {
+			 	  
+			     newNumPart=$("#"+numparteLabel).val();     
+			     idNum=$("#"+idparte).val();      
+			       if(newNumPart!=""){           
+			       if(!idNum){
+			       	  typeServices=$("#SERVICIO_ID").val();
+			       	$("#CODIGO").val(newNumPart);
+			       	//alert(typeServices);    
+			       	if(typeServices!=""){
+			       	   $("#TIPOSERVICIO option[value='"+typeServices+"']").attr('selected', 'selected');                          
+			        }      
+			       	$('#modalCatalogoServ').modal('show');    
+			      }    	        	
+       }  
+  
+  }); //end autocomplete*/      
+                
+    }
+  
+   
+   })(this);
+   
+   
+    $( "#COMPANY" ).change(function() { 
+       
+       $( "#LOCATION_NAME" ).empty();
+       			   $.ajax({
+				  method: "POST",
+				  url: "getsitescombo",
+				  data: { empresa: $( "#COMPANY" ).val() }
+				})
+				  .done(function( msg ) {
+				    $( "#LOCATION_NAME" ).html(msg);
+				     $("#LOCATION_NAME").addClass('chosen-select');   
+				    
+				    /*chosen search */     
+					var config = {    
+					  '.chosen-select': {
+						no_results_text:'Sin resultados para: ',
+						single_text:'Seleccione una opcion'        
+						/*width:"95%"*/    
+					 },  								    
+					}
+				   for (var selector in config) {
+					$(selector).chosen(config[selector]);
+				   }
+			   });
+				  
+			});
+   
+   
+   $( "#LOCATION_NAME" ).change(function() { 
+                                $.ajax({
+				  method: "POST",
+				  url: "getlocationnumber",
+				  data: { sitio: $( "#LOCATION_NAME" ).val() }
+				})
+				  .done(function( msg ) {
+				    $( "#LOCATION" ).val(msg);				  
+				   
+			   });
+				  
+			});
+      
+
+</script>

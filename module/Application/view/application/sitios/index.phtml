@@ -1,0 +1,254 @@
+<?php  
+use Zend\Session\Container;
+
+$user_session = new Container('user'); 
+    
+$basepath=$this->basePath();
+if (isset($idEmpresa))
+{
+
+$nombreEmpresa=$nomEmpresa->COMPANY;
+$rutaEdi="../";  
+}else{
+$rutaEdi="sites/index/";	
+}
+   
+?>	
+		<div class="wrapper">
+			<div class="container">
+				<div class="page-header">
+					  
+					<h3>Sitios
+						
+						<?php if(!empty($nombreEmpresa)){?>
+						<small>Detalle de sitios de la Empresa </small> <?php echo $nombreEmpresa; ?>  	 
+												
+						<?php }else{?>
+						
+						<small>Detalle de sitios registrados</small>   	
+							
+						<?php } ?>	
+					
+				</div>
+				
+				<div class="row">
+			     <div class="col-lg-3 col-md-6">  
+			     	 <?php 
+                        $empresa="";
+                        if (isset($idEmpresa))
+                        { $empresa="/".$idEmpresa; }
+                        $href=$basepath.'/sites/altas'.$empresa;    
+                        ?>
+                        <a href="<?php echo $href;?>" title="Agregar una empresa">        
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-industry fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">                                    
+                                    <div>Nuevo Sitio!</div>  
+                                </div>
+                            </div>
+                        </div>
+                       
+                            <div class="panel-footer">
+                                <span class="pull-left">Agregar un Sitio</span>   
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                       </div>
+                        </a>  
+                 </div>	  
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<h3>Filtrar por Empresa</h3>
+					</div>           
+					<div class="col-md-12 text-center">
+						<select class="chosen-select form-control xlarge selectEmpresa" name='COMPANY' id='COMPANY'>  	
+						<option value=''> - - Seleccione empresa - -</option>	
+							<?php
+					 		foreach ($empresas as $empresas)      
+                			{
+                		    ?>                				
+                			<option value="<?php echo $empresas->CUSTOMER_ID; ?>" <?php if($empresas->CUSTOMER_ID==$idEmpresa){echo "selected='selected'";} ?>>
+                			 <?php echo $empresas->COMPANY; ?>     
+                			</option>   
+                			<?php }	?>   
+					  </select>	             
+						       
+				    </div>
+   					
+				</div>
+				
+				<div class="datagrid">
+					<table id="tableGrid" class="table table-responsive responsive table-stripe">
+						<thead>
+							<tr>
+								<th class="text-center">Empresa</th>
+								<th class="text-center">Nombre del <br>sitio</th>    
+                                <th class="text-center">Número del <br>sitio</th> 
+								<th class="text-center">Tipo del <br>Servicio</th>  
+                                <th class="text-center">Número de<br> extensiones</th>
+								<th class="text-center">Extensiones por <br>aprovisionar</th>
+								<th class="text-center">Extensiones<br> aprovisionadas</th>
+								<th class="text-center">Acciones</th>          
+							</tr>
+						</thead>
+						<tbody>  
+                             <?php foreach ($sitios as $tabla) { ?>
+                             <?php //if($this->escapehtml($tabla->COMPANY)=="") {continue;}?>        
+							<tr>
+								<td><?php echo $tabla['COMPANY'];?></td>     
+								<td><?php echo $tabla['LOCATION_NAME'];?></td>
+                                <td><?php echo $tabla['LOCATION'];?></td>            
+								<td><?php //echo $tabla['ADDRESS'];?></td>
+                                <td><?php //echo $tabla['ZIP'];?></td>
+								<td><?php //echo $tabla['STATE'];?></td>
+								<td><?php //echo $tabla['PHONE'];?></td>   
+								<td class="text-center col-md-2">    
+									<a href="<?php echo $basepath.'/sites/editar/'.$tabla['LOCATION'];?>" class="btn-accion btn-primary" title="Editar">   
+										<i class="halflings-icon fa fa-pencil"></i>          
+									</a>   
+									<?php if ($user_session->rol == "Admin" || $user_session->rol == "GerentePMO") { ?>
+                                    <a data-id="<?php echo $tabla['LOCATION'];?>" data-toggle="modal" data-target="#myModal"  class="btn-accion btn-danger borrar" onclick="getCustomer('<?php echo $tabla['LOCATION'];?>');" title="Eliminar">   
+										<i class="halflings-icon fa fa-trash"></i>         
+									</a> 
+									<?php } ?>
+									<a href="<?php echo $basepath.'/fcs/index/'.$tabla['LOCATION'];?>" class="btn-accion btn-info" title="Agregar FCS">               
+										<i class="halflings-icon fa fa-file-pdf-o"></i>                    
+									</a>    
+									 <a data-id="<?php echo $tabla['LOCATION'];?>"href='sites/detalle/<?php echo $tabla['LOCATION']?>' class="btn-accion btn-warning ls-modal" title="Detalles Sitios">        
+										<i class="halflings-icon fa fa-eye"></i>                        
+									</a>    
+								</td>   
+							</tr>  
+                          <?php } ?>
+						</tbody>
+                   </table> 
+				</div>  
+				
+				
+				<!--Load-->   
+			    <div id="ark_loader-sitios" class="ark_loader">  
+			      <span>CARGANDO</span>
+			      <span>
+			        <div class="sk-fading-circle">
+			          <div class="sk-circle1 sk-circle"></div>
+			          <div class="sk-circle2 sk-circle"></div>
+			          <div class="sk-circle3 sk-circle"></div>
+			          <div class="sk-circle4 sk-circle"></div>
+			          <div class="sk-circle5 sk-circle"></div>
+			          <div class="sk-circle6 sk-circle"></div>
+			          <div class="sk-circle7 sk-circle"></div>
+			          <div class="sk-circle8 sk-circle"></div>
+			          <div class="sk-circle9 sk-circle"></div>
+			          <div class="sk-circle10 sk-circle"></div>
+			          <div class="sk-circle11 sk-circle"></div>
+			          <div class="sk-circle12 sk-circle"></div>
+			        </div>
+			      </span>  
+			    </div>  
+			    <!--load-->
+				
+				          
+			</div>
+		</div>
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <form name="borrarSitio" id="borrarSitio" method="post" action="">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Borrar Sitio</h4>
+      </div>
+      <div class="modal-body">
+      <p>¿Está seguro de eliminar el sitio con clave  <span style="font-weight: bold" name="CODE" id="CODE"></span>?</p>
+      </div>
+        <div class="errorMessage text-danger"><span id="erroridEmpresa"></span></div>
+        <input type="hidden" name="idSitio" id="idSitio"></input>
+      <div class="modal-footer">
+          
+          <button id="borrando" type="submit" class="btn btn-primary">Eliminar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Detalle sitios-->
+<div id="detalleModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+   
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Detalle sitios</h4>
+      </div>
+      <div class="modal-body">
+      	  <!--content remote-->
+      </div>
+        
+      <div class="modal-footer">        
+        
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>  
+      </div>
+    </div>
+        
+  </div>
+</div>   
+        
+   <!-- <input type="hidden" id="pageChosen" value="1" />-->                  
+               
+		<script type="text/javascript">
+				$(window).load(function() {
+					// Animate loader off screen
+					$("#ark_loader-sitios").fadeOut("slow");;       
+				});
+        
+                $(document).ready(function(){
+                    $('.borrar').click(function() {                      
+                    var $this=$(this);     
+                    
+                    var ID = $this.attr('data-id');
+                    
+                    });
+                  
+                });
+                
+                $(".chosen-select").chosen({        
+				   disable_search_threshold: 15,        
+				   no_results_text: "Sin resultados para: ",  
+						    
+				});    
+                      
+                 
+                $(".chosen-select").chosen().change(function() {
+                	location.href="<?php echo $rutaEdi;?>"+$(this).val()+"/find";       
+				    //alert($(this).val());  
+				    
+				});  
+				
+				$('.ls-modal').on('click', function(e){
+                  	 
+                    e.preventDefault();
+                    $('#detalleModal').modal('show').find('.modal-body').load($(this).attr('href'));
+                });     
+              </script>
+          
+       <?php 
+   echo $this->headScript()->prependFile($this->basePath('/js/sitios.js'));
+ 
+           
+  

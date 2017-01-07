@@ -1,0 +1,25 @@
+<select  class="chosen-select form-control xlarge" id="ADDRESS2" name="ADDRESS2">       
+<?php   foreach ($colonias as $tabla) : ?>     
+<option value="<?php echo $this->escapehtml($tabla->DESC_COLONIA); ?>">
+<?php echo $tabla->DESC_COLONIA; ?>    
+</option>
+<?php endforeach; ?>    
+|<?php echo $this->escapehtml($tabla->ID_MUN); ?>
+|<?php echo $this->escapehtml($tabla->ID_ESTADO); ?>
+</select>
+
+<script>  
+(function(){
+	/*chosen search */     
+		var config = {  
+		'.chosen-select': {
+		no_results_text:'Sin resultados para: ',
+		single_text:'Seleccione una opcion'        
+		/*width:"95%"*/    
+		},  								    
+		}
+		for (var selector in config) {
+			$(selector).chosen(config[selector]);
+		}   
+});  		   
+</script>

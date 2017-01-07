@@ -1,0 +1,48 @@
+
+			
+		<div class="wrapper">
+			<div class="container">
+				<div class="page-header">
+					<h3>Perfiles <small>Listado de los operadores del sistema</small></h3>
+				</div>
+				<button class="btn btn-primary" type="button" id='addProfile' data-toggle="modal" data-target="#modal-add-user">
+					<span class="glyphicon glyphicon-plus-sign"></span> Agregar Perfil
+				</button>
+				<div class="datagrid">
+					<table id="profiles" class="table table-responsive responsive table-stripe">
+						<thead>
+							<tr>
+                                                            <th>Title</th>
+                                                            <th>Artist</th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+						</thead>
+						<tbody>
+							<?php foreach ($albums as $album) : ?>
+ <tr>
+     <td><?php echo $this->escapeHtml($album->title);?></td>
+     <td><?php echo $this->escapeHtml($album->artist);?></td>
+     <td>
+         <a href="<?php echo $this->url('album',
+             array('action'=>'edit', 'id' => $album->id));?>">Edit</a>
+         <a href="<?php echo $this->url('album',
+             array('action'=>'delete', 'id' => $album->id));?>">Delete</a>
+     </td>
+ </tr>
+ <?php endforeach; ?>
+						</tbody>
+				</div>        
+			</div>
+		</div>
+
+            
+		<!--[if lt IE 9]><script type="text/javascript" src="libs/html5shiv.min.js"></script><![endif]-->
+		<!--[if lt IE 9]><script type="text/javascript" src="libs/respond.min.js"></script><![endif]-->
+
+		<script type="text/javascript">
+			(function(){
+				$("table").dataTable();
+			})(this);
+		</script>
+	</body>
+</html>

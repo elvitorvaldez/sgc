@@ -1,0 +1,82 @@
+
+        <noscript>
+            <div id='div_NOSCRIPT'>
+				<p>Para visualizar esta página correctamente, es necesario habilitar Javascript en tu navegador.</p>
+				<p><a href='http://www.enable-javascript.com/es/'>En este enlace encontrarás instrucciones de cómo habilitarlo.</a></p>
+            </div>
+        </noscript>
+        <div class="vertical-center">
+		
+            <div class="container">
+                <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"> 
+					<div class="panel panel-default" >
+						<div class="panel-heading">
+							<div class="panel-title text-center">Iniciar Sesión</div>
+						</div>
+						<div class="row">                
+							<div class="iconmelon">
+
+								<img alt="SGC" class="img-responsive" src="<?php echo "http://".$_SERVER['SERVER_NAME'].$this->basePath()."/images/logoSGCcuad.png"; ?>"  >
+
+								
+
+							</div>
+						</div>
+						<div class="panel-body" >
+							<form name="loginForm" id="loginForm" class="form-horizontal" enctype="multipart/form-data" method="POST" action='login'>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+									<input id="userId" type="text" class="form-control" name="userId" value="" placeholder="Usuario">
+								</div>
+								<div class="errorMessage text-danger"><span id="erroruserId"></span></div>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+									<input id="password" type="password" class="form-control" name="password" placeholder="Contraseña">
+								</div>                                                                  
+								<div class="errorMessage text-danger"><span id="errorpassword"></span></div>
+								<div class="form-group">
+									<!-- Button -->
+									<div class="col-sm-12 controls">
+										<!--<a href="#" id="reset-pass" class="pull-left"><i class="fa fa-reply"></i> Recuperar Contraseña</a>-->
+										<button id="submitLogin" type="submit" class="btn btn-primary pull-right">Entrar</button>                          
+									</div>
+								</div>
+							</form>
+						</div>                     
+					</div>
+				</div>
+
+				<div id="ark_loader-login" class="ark_loader hidden">
+					<span>CARGANDO</span>
+					<span>
+						<div class="sk-fading-circle">
+							<div class="sk-circle1 sk-circle"></div>
+							<div class="sk-circle2 sk-circle"></div>
+							<div class="sk-circle3 sk-circle"></div>
+							<div class="sk-circle4 sk-circle"></div>
+							<div class="sk-circle5 sk-circle"></div>
+							<div class="sk-circle6 sk-circle"></div>
+							<div class="sk-circle7 sk-circle"></div>
+							<div class="sk-circle8 sk-circle"></div>
+							<div class="sk-circle9 sk-circle"></div>
+							<div class="sk-circle10 sk-circle"></div>
+							<div class="sk-circle11 sk-circle"></div>
+							<div class="sk-circle12 sk-circle"></div>
+						</div>
+					</span>  
+				</div>            
+			
+			</div> <!-- /container -->
+			
+	</div>
+
+ <?php echo $this->flashMessenger()->render();  
+   //login js   
+   echo $this->headScript()   ->prependFile($this->basePath('/js/login.js'));    
+ ?>
+
+
+	<!-- Scripts -->
+   
+	</body>
+</html>

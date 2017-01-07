@@ -1,0 +1,200 @@
+<div class="wrapper">  
+  <div class="container">  
+    <div class="page-header">
+      <h3>Alta de Sitio 
+        <small>Datos para dar de alta un sitio
+        </small>
+      </h3>
+    </div>
+    <!--page-header-->
+    <div class="row">
+      <div class="box-content">
+        <form name="crearSitio" id="crearSitio" class="form-horizontal" action="<?php echo $this->basePath().'/sites/save'; if (!empty($empresa->CUSTOMER_ID)) { echo "/".$this->escapehtml($empresa->CUSTOMER_ID); }?>" method="post">   
+          <div class="control-group">
+            <label class="control-label">Nombre de la compañía:
+            </label>
+            <div class="controlsInput">
+              <?php 
+                if (!empty($empresa->COMPANY)) {
+                	
+                $ruta='empresas';
+                echo "<label class='xlarge'><h4>".$empresa->COMPANY."</h4></label>"
+                . "<input type='hidden' name='COMPANY' id='COMPANY' value='".$empresa->CUSTOMER_ID.'$'.$empresa->COMPANY."'>";     
+                }   
+                else{
+                $ruta='sitios';
+                echo "<select class='chosen-select form-control xlarge' name='COMPANY' id='COMPANY' data-msg='Nombre de la compañía es obligatorio.'>"         
+                . "<option value=''> - - Seleccione empresa - -</option>";
+                foreach ($empresas as $tabla)
+			     
+                {
+                echo "<option value='".$tabla->CUSTOMER_ID.'$'.$tabla->COMPANY."'>$tabla->COMPANY</option>";         
+                }
+                echo "</select>";
+                }  
+                ?>   
+            </div>
+            <div class="errorMessage text-danger text-center">
+              <span id="errorCOMPANY">
+              </span>
+            </div>  	
+          </div>
+          <div class="control-group">
+            <label class="control-label">Nombre del sitio:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="LOCATION_NAME" name="LOCATION_NAME" data-msg="Nombre del sitio es obligatorio.">
+            </div>
+            <div class="errorMessage text-danger text-center">
+              <span id="errorLOCATION_NAME">
+              </span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Número de sitio:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="LOCATION" name="LOCATION" 
+                     <?php if (empty($empresa->LOCATION)) { echo "onblur='buscaSitio()'"; } ?> data-msg="El número del sitio es obligatorio."> 
+            <div class="controlsInput">
+              	
+              	<div class="text-success text-center">   
+                	<span id="error">      
+                		<span id="check"  style="display:none;"><i  class="fa fa-check text-center" aria-hidden="true" ></i> <strong>Sitio disponible</strong></span>    
+                	</span>  
+                </div>
+                
+            	<div class="errorMessage text-danger text-center" >
+              		<span id="errorLOCATION">               
+               			<span id="times"  style="display:none;"><i class="fa fa-times text-center" aria-hidden="true"></i> <strong>Sitio ya registrado</strong></span>        
+             		 </span>              
+                    
+              </div> <!--controlsInput-->  
+            
+            </div>
+           
+            </div>
+          </div>
+          <!--  <div class="control-group">
+<label class="control-label">Fecha de Inicio:</label>
+<div class="controlsInput">
+<input type="text" class="form-control xlarge datepicker" id="" name="">
+</div>
+</div>-->
+          <div class="control-group">
+            <label class="control-label">Dirección:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="ADDRESS" name="ADDRESS" placeholder="Calle, Num Ext, Num Int, Piso, Colonia">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Código Postal:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="ZIP" name="ZIP" onblur='buscaCp();'>  
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Delegación/Municipio:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="CITY" name="CITY">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">ESTADO:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="STATE" name="STATE">
+            </div>
+          </div>
+          <!--<div class="control-group">
+<label class="control-label">Código Postal:</label>
+<div class="controlsInput">
+<input type="text" class="form-control xlarge" id="" name="">
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">Colonia:</label>
+<div class="controlsInput">
+<input type="text" class="form-control xlarge" id="" name="">
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">Municipio/Delegación:</label>
+<div class="controlsInput">
+<input type="text" class="form-control xlarge" id="" name="">
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">Estado:</label>
+<div class="controlsInput">
+<input type="text" class="form-control xlarge" id="" name="">
+</div>
+</div>  
+-->
+          <div class="control-group">
+            <label class="control-label">Número Telefónico:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="PHONE" name="PHONE">
+            </div>
+          </div>
+          <div class="control-group btnsSend text-right">     
+            <button class="btn btn-success btn-enviar" type="submit">Guardar
+            </button>  
+            <a href="<?php echo $this->url("$ruta"); ?>"  class="btn btn-default btn-enviar" type="button">Cancelar
+            </a> 
+          </div>  
+        </form>
+      </div>  
+    </div>    
+    <!--Load-->   
+    <div id="ark_loader-login" class="ark_loader hidden">
+      <span>CARGANDO
+      </span>
+      <span>
+        <div class="sk-fading-circle">
+          <div class="sk-circle1 sk-circle">
+          </div>
+          <div class="sk-circle2 sk-circle">
+          </div>
+          <div class="sk-circle3 sk-circle">
+          </div>
+          <div class="sk-circle4 sk-circle">
+          </div>
+          <div class="sk-circle5 sk-circle">
+          </div>
+          <div class="sk-circle6 sk-circle">
+          </div>
+          <div class="sk-circle7 sk-circle">
+          </div>
+          <div class="sk-circle8 sk-circle">
+          </div>
+          <div class="sk-circle9 sk-circle">
+          </div>
+          <div class="sk-circle10 sk-circle">
+          </div>
+          <div class="sk-circle11 sk-circle">
+          </div>
+          <div class="sk-circle12 sk-circle">
+          </div>
+        </div>
+      </span>  
+    </div>  
+    <!--load-->	
+  </div>  
+  <!--container-->
+</div>  
+<!--wrapper-->
+<!--Footer-->
+
+<input type="hidden" id="rutaSitio" value="../../public/sites/searchsite" />      
+<input type="hidden" id="pageChosen" value="1" />
+<?php 
+echo $this->headScript()->appendFile($this->basePath('/js/sitios.js')); 
+   
+?>
+
+   

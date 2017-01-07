@@ -1,0 +1,249 @@
+
+<?php   
+use Zend\Session\Container;
+
+$user_session = new Container('user');
+?>       
+        <div class="container container-fluid">
+            
+			<div class="jumbotron">
+				<h3>Bienvenido, <?php echo $user_session->rol;?></h3>
+				<p>A continuación te presentamos las aplicaciones a las que puedes acceder.</p>
+			</div>
+
+			<div class="row nose">
+
+               <div class="col-lg-3 col-md-6">                  	
+                  <a href="notificaciones" title="Notificaciones">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-comments fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><!--26--></div>
+                                    <div>Notificaciones!</div>  
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Más</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>                        
+                    </div>
+                   </a>  
+                </div>   
+                            
+                <?php
+if ($user_session->rol == "Admin" || $user_session->rol == "GerenteImp" || $user_session->rol == "GerentePMO" || $user_session->rol == "Pedidos"
+    || $user_session->rol == "PM") {  
+?>
+                          
+
+                <div class="col-lg-3 col-md-6">
+                    <a href="empresas" title="Empresas">    	
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-industry fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><!--26--></div>
+                                    <div>Empresas</div>  
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Más</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>                       
+                    </div>
+                     </a>
+                </div>                  
+                            
+            
+
+                 <div class="col-lg-3 col-md-6">
+                    <a href="sitios" title="Sitios">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-fax fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><!--26--></div>
+                                    <div>Sitios</div>  
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Más</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                       </div>
+                   </a> 
+                </div>          
+              
+                            
+                <div class="col-lg-3 col-md-6">
+                  <a href="fcs" title="FCS">	
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-file-pdf-o fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><!--26--></div>
+                                    <div>FCS</div>  
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Más</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                    </div>
+                    </a>
+                </div>   
+                                                       <?php }
+?>              
+                <?php
+if ($user_session->rol == "Admin" || $user_session->rol == "Pedidos") {
+?>     
+                
+                  <div class="col-lg-3 col-md-6">
+                     <a href="rse" title="RSE">                            	
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-file-text-o fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><!--26--></div>
+                                    <div>RSE</div>  
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Más</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>                       
+                    </div>
+                     </a>
+                </div>   
+                            
+                            
+                <?php }
+?>           
+<?php
+ /*
+  * Asignación de usuarios para Gerente PM
+  */
+if ($user_session->rol == "Admin" || $user_session->rol == "GerentePMO") {
+?>
+<div class="col-lg-3 col-md-6">
+                  <a href="userpm" title="Asignar PM">  	
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user-plus fa-5x"></i>     
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <!--<div class="huge">26</div>-->
+                                    <div>Asignar PM</div>  
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Más</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                    </div>
+                    </a>
+                </div>            
+<?php
+}
+
+
+/*
+  * Documentos para PM
+  */ 
+  
+  if ($user_session->rol == "Admin" || $user_session->rol == "GerentePMO" || $user_session->rol == "PM") {
+?>
+<div class="col-lg-3 col-md-6">
+                  <a href="filepm" title="Asignar PM">     	
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-file-text fa-5x"></i>           
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <!--<div class="huge">26</div>-->
+                                    <div>Documentos PM</div>  
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Más</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                    </div>
+                    </a>
+                </div>                   
+                <?php } ?>              
+                                        
+                            
+                 </div> 
+                            <!--fin del row-->
+                            
+                            
+           <!--Load-->   
+			    <div id="ark_loader-dashboard" class="ark_loader">  
+			      <span>CARGANDO</span>
+			      <span>
+			        <div class="sk-fading-circle">
+			          <div class="sk-circle1 sk-circle"></div>
+			          <div class="sk-circle2 sk-circle"></div>
+			          <div class="sk-circle3 sk-circle"></div>
+			          <div class="sk-circle4 sk-circle"></div>
+			          <div class="sk-circle5 sk-circle"></div>
+			          <div class="sk-circle6 sk-circle"></div>
+			          <div class="sk-circle7 sk-circle"></div>
+			          <div class="sk-circle8 sk-circle"></div>
+			          <div class="sk-circle9 sk-circle"></div>
+			          <div class="sk-circle10 sk-circle"></div>
+			          <div class="sk-circle11 sk-circle"></div>
+			          <div class="sk-circle12 sk-circle"></div>
+			        </div>
+			      </span>  
+			    </div>  
+			    <!--load-->                 
+  </div>  
+  <script type="text/javascript">
+				$(window).load(function() {
+					// Animate loader off screen
+					$("#ark_loader-dashboard").fadeOut("slow");;       
+				});
+ </script>				

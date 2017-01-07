@@ -1,0 +1,204 @@
+<?php $escaper = new Zend\Escaper\Escaper('utf-8');
+header('Content-Type: text/html; charset=UTF-8');
+?>
+<div class="wrapper">  
+  <div class="container">
+    <div class="page-header">
+      <?php  if (!empty($empresa->CUSTOMER_ID)) { ?>
+      <h3>Edición de: 
+        <?php echo $this->escapehtml($empresa->COMPANY); ?> 
+        <small>Datos para editar la empresa
+        </small>
+      </h3>            
+      <?php
+        $rutaCp="../../enterprise/searchcp";
+        $rutaCom="../../enterprise/searchmunstate";
+		?>
+		<input type="hidden" id="rutaCp" value="<?php echo $rutaCp; ?>" />
+		<input type="hidden" id="rutaCom" value="<?php echo $rutaCom; ?>" />
+		<?php   
+        }else{ 
+        ?>
+      <h3>Alta de Empresa 
+        <small>Datos para dar de alta un empresa
+        </small>
+      </h3>  
+      <?php	
+        $rutaCp="../enterprise/searchcp";
+        $rutaCom="../enterprise/searchmunstate"; 
+        $rutaEmp="../enterprise/searchemp";   
+		?>
+		<input type="hidden" id="rutaCp" value="<?php echo $rutaCp; ?>"/>
+		<input type="hidden" id="rutaCom" value="<?php echo $rutaCom; ?>"/>      
+		<input type="hidden" id="rutaEmp" value="<?php echo $rutaEmp; ?>"/>
+		<?php
+        } ?>
+    </div>
+    <!--page-header-->
+    <div class="row">
+      <div class="box-content">   
+        <?php  if (!empty($empresa->CUSTOMER_ID)){
+        $idCustomer = $this->url('enterprise', array('action'=>'save', 'id' => $empresa->CUSTOMER_ID));
+        }else{
+        $idCustomer = $this->url('enterprise', array('action'=>'save'));  
+        } ?> 
+        <form name="empresa" id="empresa" class="form-horizontal" action="<?php echo $idCustomer;?>" method="post">                             
+          <div class="control-group">
+            <label class="control-label">Nombre corto de la compañía:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="COMPANY" name="COMPANY" value="<?php if (!empty($empresa->COMPANY)) { echo $this->escapehtml($empresa->COMPANY); } ?>" data-msg="Nombre corto de la compañía es obligatorio.">     
+            </div>
+            <div class="errorMessage text-danger text-center">
+              <span id="errorCOMPANY">
+              </span>
+            </div>	
+          </div>
+          <div class="control-group">
+            <label class="control-label">Nombre completo de la compañía:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="COMPANYFULL" name="COMPANYFULL" value="<?php if (!empty($empresa->COMPANY_FULL_NAME)) { echo $this->escapehtml($empresa->COMPANY_FULL_NAME); } ?>" data-msg="Nombre completo de la compañía es obligatorio.">     
+            </div>
+            <div class="errorMessage text-danger text-center">
+              <span id="errorCOMPANYFULL">     
+              </span>
+            </div>	
+          </div>
+          
+          <div class="control-group">
+            <label class="control-label">R.F.C.:
+            </label>
+            
+              <input type="text" class="form-control xlarge" id="CUSTOMER_ID" name="CUSTOMER_ID" onkeyup="aMays(event, this)"  
+	              value="<?php if (!empty($empresa->CUSTOMER_ID)) { echo $this->escapehtml($empresa->CUSTOMER_ID); } ?>"   
+	              <?php if (empty($empresa->CUSTOMER_ID)) { echo 'onblur="aMays(event, this);buscaRFC()"'; } ?>data-msg="El R.F.C. es obligatorio."
+	              <?php if (!empty($empresa->CUSTOMER_ID)) { echo "readonly"; } ?>  
+	              >   
+              <div class="controlsInput">           
+              	
+              	<div class="text-success text-center">   
+                	<span id="error">      
+                		<span id="check"  style="display:none;"><i  class="fa fa-check text-center" aria-hidden="true" ></i> <strong> RFC disponible</strong></span>    
+                	</span>  
+                </div>
+                
+            	<div class="errorMessage text-danger text-center" >
+              		<span id="errorCUSTOMER_ID">               
+               			<span id="times"  style="display:none;"><i class="fa fa-times text-center" aria-hidden="true"></i> <strong> RFC ya registrado</strong></span>        
+             		 </span>              
+           		 </div>  
+                                  
+              </div> <!--controlsInput-->              
+          </div><!--control-group-->
+          
+          <div class="control-group">
+            <label class="control-label">Fecha de recepción en Vsys:
+            </label>
+            <div class="controlsInput">
+              <?php if (!empty($empresa->CUSTOMER_SINCE)) { 
+                $date = date_create($empresa->CUSTOMER_SINCE);
+                $fecha=date_format($date, 'd/m/Y');                                                           
+                } ?>
+              <input type="text" class="form-control xlarge datepicker" id="" name="CUSTOMER_SINCE" value="<?php if (!empty($empresa->CUSTOMER_SINCE)) { echo $fecha; } ?>">       
+            </div> <!--controlsInput-->              
+          </div><!--control-group-->
+          
+          <div class="control-group">
+            <label class="control-label">Calle y número:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="" name="ADDRESS1" value="<?php if (!empty($empresa->ADDRESS1)) { echo mb_convert_case($empresa->ADDRESS1,MB_CASE_TITLE, "UTF-8"); } ?>">        
+            </div> <!--controlsInput-->              
+          </div><!--control-group-->
+          
+          <div class="control-group">
+            <label class="control-label">Código Postal:
+            </label>
+            <div class="controlsInput">   
+              <input type="text" class="form-control xlarge" id="CODE" name="CODE" onblur="buscaCp();" maxlength="5" value="<?php if (!empty($empresa->CODE)) { echo $this->escapehtml($empresa->CODE); } ?>">     
+            </div> <!--controlsInput-->              
+          </div><!--control-group-->
+          
+          <div class="control-group">
+            <label class="control-label">Colonia:
+            </label>
+            <div class="controlsInput colName">     
+              <?php if (!empty($empresa->ADDRESS2)) { ?>                                  	 
+              <input class="form-control xlarge" id="ADDRESS2" name="ADDRESS2" type="text" readonly="" value="<?php echo mb_convert_case($empresa->ADDRESS2,MB_CASE_TITLE, "UTF-8");?>">        	 
+              <?php  	  
+                } else{
+                ?>    
+              <select  class="form-control xlarge" id="ADDRESS2" name="ADDRESS2">  
+                <option value="">Selecciona una opción...
+                </option>     
+              </select>	       
+              <?php
+                }
+                ?>    
+            </div> <!--controlsInput-->              
+          </div><!--control-group-->
+          
+          <div class="control-group">
+            <label class="control-label">Municipio/Delegación:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="ADDRESS3" name="ADDRESS3" value="<?php if (!empty($empresa->ADDRESS3)) { echo  mb_convert_case($empresa->ADDRESS3,MB_CASE_TITLE, "UTF-8"); } ?>">                       
+            </div> <!--controlsInput-->              
+          </div><!--control-group-->  
+          
+          <div class="control-group">
+            <label class="control-label">Estado:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="STATE" name="STATE" value="<?php if (!empty($empresa->STATE)) { echo mb_convert_case($empresa->STATE,MB_CASE_TITLE, "UTF-8"); } ?>">           
+            </div> <!--controlsInput-->                
+          </div><!--control-group-->
+          
+          <div class="control-group">
+            <label class="control-label">Número Telefónico:
+            </label>
+            <div class="controlsInput">
+              <input type="text" class="form-control xlarge" id="" name="PHONE" value="<?php if (!empty($empresa->PHONE)) { echo $this->escapehtml($empresa->PHONE); } ?>">     
+            </div> <!--controlsInput-->                
+          </div><!--control-group-->
+          
+          <div class="control-group btnsSend text-right">     
+            <button class="btn btn-success btn-enviar" type="submit" id="btnEnviar">Guardar
+            </button>  
+            <a href="<?php echo $this->url('empresas'); ?>" class="btn btn-default btn-enviar" type="button">Cancelar
+            </a>         
+          </div>
+        </form>
+      </div>        	
+    </div>          
+    <!--Load-->   
+    <div id="ark_loader-login" class="ark_loader hidden">
+      <span>CARGANDO</span>
+      <span>
+        <div class="sk-fading-circle">
+          <div class="sk-circle1 sk-circle"></div>
+          <div class="sk-circle2 sk-circle"></div>
+          <div class="sk-circle3 sk-circle"></div>
+          <div class="sk-circle4 sk-circle"></div>
+          <div class="sk-circle5 sk-circle"></div>
+          <div class="sk-circle6 sk-circle"></div>
+          <div class="sk-circle7 sk-circle"></div>
+          <div class="sk-circle8 sk-circle"></div>
+          <div class="sk-circle9 sk-circle"></div>
+          <div class="sk-circle10 sk-circle"></div>
+          <div class="sk-circle11 sk-circle"></div>
+          <div class="sk-circle12 sk-circle"></div>
+        </div>
+      </span>  
+    </div>  
+    <!--load-->
+    
+  </div>  
+  <!--container-->
+</div>  
+<!--wrapper-->
+<?php 
+echo $this->headScript()->appendFile($this->basePath('/js/empresas.js'));    
+?>
+   

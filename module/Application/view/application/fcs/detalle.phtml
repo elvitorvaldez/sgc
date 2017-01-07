@@ -1,0 +1,154 @@
+<?php //$plugin = $this->moneyFormat(); 
+  
+use Zend\Session\Container;      
+
+$user_session = new Container('user');         
+ 
+  
+?>     
+<div class="wrapper">    
+  <div class="container">
+  	
+  	<div class="page-header">
+  		<h3>Formato de compra de servicio FCS: <?php echo $this->escapehtml($fcs->FOLIO);?></h3>       
+  	</div><!--page-header-->	
+  	
+  	<div class="box-content"> 
+  		<?php //if($user_session->rol==""){ ?>
+  		<div class="row text-right">  
+  			<a href="<?php echo $this->url('fcs', array('action'=>'altas', 'id' => $fcs->idFcs));?>" class="btn-edit btn-primary" title="Editar">         
+				<i class="halflings-icon fa fa-pencil-square-o"></i>            
+			</a>   
+       			  
+  		</div>
+  		<?php //} ?>  
+  		<div class="row">
+			<div class="col-md-4">Empresa:</div>  
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->COMPANY); ?></div>  				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">Sitio:</div>  
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->LOCATION_NAME); ?></div>     				    
+		</div>
+		  		
+		<div class="row">
+			<div class="col-md-4">Folio:</div>  
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->FOLIO); ?></div>  				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">Fecha de emisión:</div>
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->FECHAEMISION);?></div>				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">QO:</div>
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->QO);?></div>				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">Cotización:</div>
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->COTIZACION);?></div>				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">Nombre del CAP:</div>
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->CAP_NOMBRE);?></div>				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">E-mail CAP:</div>
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->CAP_CORREO);?></div>				    
+		</div>
+		<div class="row">
+			<div class="col-md-4">Telefono CAP:</div>  
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->CAP_TELEFONO);?></div>				    
+		</div>
+		<div class="row">
+			<div class="col-md-4">Extension CAP:</div>
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->CAP_EXTENSION);?></div>				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">Responsable de instalación (en sitio):</div>
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->RESPONSABLEINSTALACION);?></div>				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">Caso de instalación:</div>
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->CASOINSTALACION);?></div>				    
+		</div>
+		
+		<div class="row">     
+			<div class="col-md-4">Tel. resp. en sitio :</div>    
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->TELRESPSITIO);?></div>				    
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">Tipo de servicio:</div>  
+			<div class="col-md-8 txtResalto"><?php 
+				  if($fcss->SERVICIO_ID=='1'){
+				  	echo "CISCO";
+				  }elseif($fcss->SERVICIO_ID=='2'){
+				  	echo "BROADSOFT";  
+				  }
+				?></div>
+		</div>
+		
+		<div class="row">      
+			<div class="col-md-4">Orden aprovisionamiento:</div>    
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->ORDENAPROVISIONAMIENTO);?></div>  				    
+		</div>
+		
+		<div class="row">   
+			<div class="col-md-4">Tipo movimiento:</div>    
+			<div class="col-md-8 txtResalto"><?php echo $this->escapehtml($fcs->TIPOMOVIMIENTO);?></div>				    
+		</div>
+		 	  	
+		<div class="row text-center">    
+			  <h3>Servicios que se compran</h3>   
+		</div>	
+		
+		  <?php foreach ($serviciosAsociados as $tabla) : ?>
+		<div class="row">		   
+			 
+			   <div class="col-md-4 text-center">
+	                <label class="text-center">Número de parte</label>
+    	            <div class="col-md-8 txtResalto"><?php echo $tabla['CODIGO']; ?></div>  
+               </div>
+               <div class="col-md-3 text-center">  
+        	         <label class="text-center">Id Componente</label>
+            	     <div class="col-md-8 txtResalto"><?php echo $tabla['ID_COMPONENTE']; ?></div>
+               </div>   
+               <div class="col-md-2 text-center">
+                	 <label class="text-center">Cantidad</label>	
+                 	<div class="col-md-8 txtResalto"><?php echo $tabla['CANTIDAD']; ?></div>  
+               </div>
+               <div class="col-md-2 text-center">  
+                 	<label class="text-center">Precio</label>   	
+                        <div class="col-md-8 txtResalto">$<?php setlocale(LC_MONETARY, 'es_MX'); echo $plugin->getMoneyFormat('%i', $tabla['PRECIO']) . "\n"; ?></div>      
+               </div>      
+              
+		</div>
+		
+                <?php endforeach; ?>
+			
+  	</div><!--box-content-->
+  	  
+  </div><!--container-->
+</div><!--wrapper-->
+  
+  	
+	
+	
+	
+	    
+	      
+	
+	
+	<div class="clearBoth"></div>   
+        
+        	     
+</div>	<!--end container-->  
+

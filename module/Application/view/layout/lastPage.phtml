@@ -1,0 +1,21 @@
+<?php
+ 
+$urlAnterior=$_SERVER["HTTP_REFERER"];
+$uriActual=$_SERVER["REQUEST_URI"];
+$uriDash="/sgc/public/dashboard";
+    
+if($uriActual!=$uriDash){
+	?>
+	  
+	  <div class="container">  
+	  	<div class="btnLastpage text-right">
+	  		<a href="<?php echo $urlAnterior; ?>" class="btn btn-outline btn-default"><span class="fa fa-backward"></span> Regresar</a>     
+	  		
+	  	</div>       
+	  </div>	
+			   
+  <?php
+}  else{
+	
+}
+?>   

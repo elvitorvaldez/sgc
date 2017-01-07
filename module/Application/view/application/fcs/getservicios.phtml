@@ -1,0 +1,13 @@
+<?php   
+foreach ($servicios as $test) {
+        
+   $CODIGOARR[]=array('label'=> $this->escapehtml($test->CODIGO),'value'=>$test->CATSERVICIO_ID);  
+   //$CODIGOARR[]=array($this->escapehtml($test->CODIGO));
+  /* ?>
+   <li><?php echo $this->escapehtml($test->CODIGO); ?></li>
+   <?php*/       
+}
+ // $CODIGO=array("data"=>$CODIGO);     
+    
+echo $CODIGO= json_encode($CODIGOARR);        
+ ?>

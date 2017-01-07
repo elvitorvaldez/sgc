@@ -1,0 +1,173 @@
+		<div class="wrapper">  
+			<div class="container">
+				<div class="page-header">
+					<h3>Editar Sitio <small>Editar datos de un sitio</small></h3>
+				</div><!--page-header-->
+				
+				<div class="row">
+					<div class="box-content">
+						<form name="editarSitio" id="editarSitio" class="form-horizontal" action="<?php echo $this->basePath().'/sites/editing'; if (!empty($sitio->LOCATION)) { echo "/".$this->escapehtml($sitio->LOCATION); }?>" method="post"> 	
+						
+						<div class="control-group">
+							<label class="control-label">Nombre de la compañía:</label>
+							<div class="controlsInput">
+								<label class="xlarge"><h4><?php if (!empty($sitio->COMPANY)) { echo $this->escapehtml($sitio->COMPANY); } ?></h4></label>    
+                                 <input type='hidden' name='COMPANY' id='COMPANY' value='<?php echo $sitio->COMPANY;?>'>
+                                 <input type='hidden' name='CUSTOMER_ID' id='CUSTOMER_ID' value='<?php echo $sitio->ID;?>'>  
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">Nombre del sitio:</label>
+							<div class="controlsInput">
+								<input type="text" class="form-control xlarge" id="LOCATION_NAME" name="LOCATION_NAME" value="<?php if (!empty($sitio->LOCATION_NAME)) { echo  mb_convert_case($sitio->LOCATION_NAME,MB_CASE_TITLE,"UTF-8"); } ?>" data-msg="Nombre del sitio es obligatorio.">     
+							</div>
+							<div class="errorMessage text-danger text-center"><span id="errorLOCATION_NAME"></span></div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">Número de sitio:</label>
+							<div class="controlsInput">  
+								<input type="text" class="form-control xlarge" id="LOCATION" name="LOCATION" value="<?php if (!empty($sitio->LOCATION)) { echo $this->escapehtml($sitio->LOCATION); } ?>" data-msg="El número del sitio es obligatorio.">       
+							</div>
+							<div class="errorMessage text-danger text-center"><span id="errorLOCATION"></span></div> 
+						</div>
+						
+                                         
+                          <div class="control-group">
+							<label class="control-label">Direccion:</label>
+							<div class="controlsInput">
+                                <input type="text" class="form-control xlarge" id="ADDRESS" name="ADDRESS" value="<?php if (!empty($sitio->ADDRESS)) { echo mb_convert_case($sitio->ADDRESS,MB_CASE_TITLE, "UTF-8"); } ?>" placeholder="Calle, Num Ext, Num Int, Piso, Colonia">     
+							</div>  
+						</div>
+   
+						
+						<div class="control-group">  
+							<label class="control-label">Código Postal:</label>
+							<div class="controlsInput">
+								<input type="text" class="form-control xlarge" id="ZIP" name="ZIP" value="<?php if (!empty($sitio->ZIP)) { echo $this->escapehtml($sitio->ZIP); } ?>">     
+							</div>
+						</div>
+
+						
+						<div class="control-group">
+							<label class="control-label">Municipio/Delegación:</label>
+							<div class="controlsInput">
+								<input type="text" class="form-control xlarge" id="CITY" name="CITY" value="<?php if (!empty($sitio->CITY)) { echo mb_convert_case($sitio->CITY,MB_CASE_TITLE, "UTF-8"); } ?>" >     
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">Estado:</label>
+							<div class="controlsInput">
+								<input type="text" class="form-control xlarge" id="STATE" name="STATE" value="<?php if (!empty($sitio->STATE)) { echo mb_convert_case($sitio->STATE,MB_CASE_TITLE, "UTF-8"); } ?>">     
+							</div>
+						</div>  
+						
+						<div class="control-group">
+							<label class="control-label">Número Telefónico:</label>
+							<div class="controlsInput">
+								<input type="text" class="form-control xlarge" id="PHONE" name="PHONE" value="<?php if (!empty($sitio->PHONE)) { echo $this->escapehtml($sitio->PHONE); } ?>">     
+							</div>
+						</div>
+						
+						<div class="control-group btnsSend text-right">     
+                            <button class="btn btn-success btn-enviar" type="submit">Guardar</button>  
+							<a href="<?php echo $this->url('sitios'); ?>" class="btn btn-primary btn-enviar" type="button">Cancelar</a>        
+						</div>
+						   
+						</form>
+					</div>        	
+					
+                      
+                </div>          
+		 
+													
+				<!--Load-->   
+								
+				<div id="ark_loader-login" class="ark_loader hidden">
+				<span>CARGANDO</span>
+				<span>
+					<div class="sk-fading-circle">
+						<div class="sk-circle1 sk-circle"></div>
+						<div class="sk-circle2 sk-circle"></div>
+						<div class="sk-circle3 sk-circle"></div>
+						<div class="sk-circle4 sk-circle"></div>
+						<div class="sk-circle5 sk-circle"></div>
+						<div class="sk-circle6 sk-circle"></div>
+						<div class="sk-circle7 sk-circle"></div>
+						<div class="sk-circle8 sk-circle"></div>
+						<div class="sk-circle9 sk-circle"></div>
+						<div class="sk-circle10 sk-circle"></div>
+						<div class="sk-circle11 sk-circle"></div>
+						<div class="sk-circle12 sk-circle"></div>
+					</div>
+				</span>  											  
+																
+				<!--load-->     			 
+				       
+			</div>  <!--container-->
+		</div>  <!--wrapper-->
+
+
+        <!--Footer-->
+        
+                         <?php 
+  echo $this->headScript()->appendFile($this->basePath('/js/sitios.js'));    
+ ?>
+        
+		<script type="text/javascript">
+			(function(){
+				$( ".datepicker" ).datepicker();  
+			})(this);
+                        
+                        
+                        
+                        
+                        $( "#ZIP" ).blur(function() {  
+
+				   $.ajax({
+				  method: "POST",
+				  url: "../../enterprise/searchcp",
+				  data: { cp: $( "#ZIP" ).val() }
+				})
+				  .done(function( msg ) {                                 
+				     var contains = msg.indexOf('Notice');
+				      if (contains>0)
+				        {
+				         alert ("Código postal inválido");
+				        }
+				        
+				      var dataArray = msg.split('|');
+				    
+				  
+                                    
+                                   $.ajax({
+				  method: "POST",
+				  url: "../../enterprise/searchmunstate",
+				  data: { mun: dataArray[1],
+                                          state: dataArray[2]
+                                              }
+				})
+				  .done(function( msg ) {
+                           
+				     var contains = msg.indexOf('Notice');
+				      if (contains>0)
+				        {
+				         alert ("Código postal inválido");
+				        } 
+                                    else
+                                    {
+                                    var dataArray = msg.split('|');
+				    
+				    $("#CITY").val(dataArray[0]);
+				    $("#STATE").val(dataArray[1]);
+                                }
+                                    
+                             });       
+                                    
+			   });
+				  
+			});
+                        
+		</script>

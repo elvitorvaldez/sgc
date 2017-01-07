@@ -1,0 +1,8 @@
+<option value="">- - Seleccione un sitio para <?php echo $empresa;?>- -</option>
+<?php foreach ($sitios as $tabla) : ?>
+<?php if (trim(($tabla->LOCATION_NAME))=="") { continue; }?>
+<option value="<?php echo utf8_encode($tabla->LOCATION_NAME); ?>">
+<?php echo utf8_encode($this->escapehtml($tabla->LOCATION_NAME)); ?>
+</option>
+<?php endforeach; ?>
+

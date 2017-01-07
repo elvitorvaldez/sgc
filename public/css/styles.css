@@ -1,0 +1,308 @@
+/*
+ *  Hoja de estilos para el sistema sgc 
+ */
+.logoCuad{
+	max-width:210px ;  
+	float: left;
+	 width: 56%;
+}
+.logoVsys{
+	max-width:150px ;
+	float:right;
+	margin-top: -11px; 
+	margin-right: 13px;   
+	width: 38%; 	
+}
+
+.form-horizontal .control-group::before,
+.form-horizontal .control-group::after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.form-horizontal .control-group::after {
+    clear: both;
+}
+.form-horizontal .control-label {
+    margin-right: 10px;
+    padding-top: 5px;
+    text-align: left; 
+    width: 180px;
+}
+.form-horizontal .controls {
+    /*margin-left: 190px;*/  
+}
+ .controlsInput{
+ 	margin-left: 10px;  
+	
+}
+.form-horizontal .control-group {
+    margin-bottom: 20px;
+}
+.btnsSend{
+	width: 84%;  
+}    
+.control-group .btn-enviar {
+    text-align: right;
+}
+
+#footer{     
+	/*background-image: linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    background-repeat: no-repeat;*/
+    /*border-bottom: 1px solid #178acc;*/
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+    filter: none;
+   /* background-color: #2fa4e7;*/   
+    border-radius: 4px;  
+    height: 50px;  
+    position: relative;
+    margin-top: 35px;    
+    clear:both;       
+    width: 100%;  
+       
+}
+
+.container-footer{
+	margin-top: auto;       
+}
+.powerVsys{
+	float: right;  	
+}
+.autorVsys{
+	float: left;   
+    width: 30%;
+	color: #000000;
+	margin-top: 15px;
+	margin-left: 15px;  
+}
+.powerVsys img{  
+	 height: 40px;     
+     max-width: 110px;
+     margin-right: 15px;
+     margin-top: 4px;   	
+}
+.clearBoth{
+   height: 50px;	
+   clear:both; 
+}
+
+.panelDetalle{
+	margin-top: 35px;
+	margin-bottom: 35px;    
+}
+.acordionDetalle{
+	   
+    float: right;
+    font-size: 24px;
+    margin-top: -2px;   
+}
+.txtResalto{
+	
+	font-weight: bold;
+	color: #033C73;
+	
+}   
+.selectEmpresa {  
+	width: 70%;    
+	     
+}
+.panel-involucrados{   
+	width: 200px;  
+	height:160px;
+	float: left;  
+	margin-right:15px;    
+}
+
+/*modal detalle FCS */
+#modalFcs .modal-content{   
+	background: #F5F5F5;   
+}
+
+#modalFcs .modal-header{
+	background: #428BCA;
+	border-radius: 13px;
+    color: #fff;
+    height: 38px;
+    margin: 10px auto auto;
+    padding: 6px 13px 5px 14px !important;  
+    width: 95%;         
+}
+#modalFcs .modal-header h4, #modalFcs .modal-header button{          
+	color: #fff !important;  
+} 
+.modal-body{
+	padding: 28px !important;  
+}
+.tblFcs{
+	background: #fff;    
+}
+.tblFcs th ,.tblFcs td{
+	text-align: center;  
+}
+.errorMessage{
+    height: 20px;
+    margin-top: 5px;
+}   
+
+#agregar{  
+	margin-right: 2px;    
+}
+
+.btnLastpage{
+	width: 25%;  
+	margin-top: 25px;
+	float: right;  	 	
+}
+
+
+#tableGridDta_filter,#tableGridDta_length,#tableGridDta_info,#tableGridDta_paginate{   
+	display: none;   
+ }   
+ #detalleModal .modal-dialog  {   
+ 	width:75%;
+ 	}
+
+.panelUsr{
+   background: rgba(153, 153, 166, 0.3);
+   padding-left: 10px !important;          
+} 	
+.titUser{
+	width: 100%;    
+}
+.control-group-user{  
+	width: 90%;   
+}
+.box-content-user{
+	margin: auto;
+    padding: 10px;
+    position: relative;
+    width: 95%;
+    /*z-index: 50;*/   
+}
+.btnAddUser{
+	width: 100%,  	
+	      
+}
+#submitUser{
+	margin-bottom: 25px !important;  
+}
+
+.resultUser{
+	color: #044889;
+    display: none;
+    font-size: 20px;      
+    margin-top: 15px;
+    text-align: center;   
+}
+#empresaContent{
+	display: none;
+	color: #000000 !important;    
+}
+#pmContent{
+	display: none;
+	color: #000000 !important;       
+}
+.text-userPM{
+	margin-left: 5px;  
+}
+
+.titContraste{  
+	color: #FFFFFF !important;
+	font-weight: bold;  
+}
+ /***********autocomplte************/
+   .ui-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    display: none;
+    min-width: 160px;
+    _width: 160px;
+    padding: 4px 0;
+    margin: 2px 0 0 0;
+    list-style: none;
+    /*background-color: #ffffff;*/
+    border-color: #ccc;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-style: solid;
+    border-width: 1px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    *border-right-width: 2px;
+    *border-bottom-width: 2px
+}
+.ui-autocomplete .ui-menu-item>a.ui-corner-all {
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #555555;
+    white-space: nowrap
+}
+.ui-widget-content .ui-state-focus {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #0088cc;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    background-image: none
+}   
+.loader
+    {
+        background: url(../images/loader.gif); 
+        background-size: 25px 25px;   
+        background-repeat: no-repeat;
+        background-position: right;
+    }
+    
+/***********autocomplte************/  
+ 	
+.uploadPM{
+	display: none;  
+} 	
+
+.top-buffer { 
+	margin-top:20px; 
+}   
+
+#contenDocument{
+	display:none;      	
+}
+
+.showDocument{
+    margin-left: 15px;
+    margin-top: 10px;
+    width: 95%;  
+}   
+/******Media screen****/
+
+/*@media (max-width:480px)*/  
+@media only screen
+   
+and (min-device-width : 320px)
+
+and (max-device-width : 480px)   
+{
+	.box-content{
+		width: 90% !important;
+		margin-top: -1px;
+	    padding: 10px;
+	    position: relative;  
+	    z-index: 50;
+	    margin: auto;  
+	       
+	}
+	
+}
+/******Media screen****/

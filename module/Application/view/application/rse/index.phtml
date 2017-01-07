@@ -1,0 +1,346 @@
+<?php
+ use Zend\Session\Container;
+ $user_session = new Container('user');  
+ $basepath=$this->basePath();
+    
+?>
+<div class="wrapper">     
+	<div class="container">
+	  <div class="page-header">    
+		 <h3>RSE <small>Detalle de RSE's registrados</small></h3>
+	  </div>
+	     
+       <div class="row">  
+         <div class="col-lg-3 col-md-6">
+         	 <a href="rse/altas">
+            <div class="panel panel-primary">
+               <div class="panel-heading">
+                  <div class="row">
+                     <div class="col-xs-3">
+                        <i class="fa fa-file-pdf-o fa-5x"></i>
+                     </div>
+                     <div class="col-xs-9 text-right">
+                        <div class="huge">+</div>
+                        <div>Agregar RSE</div>
+                     </div>
+                  </div>
+               </div>
+              
+                  <div class="panel-footer">
+                     <span class="pull-left">Ver Más</span>
+                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                     <div class="clearfix"></div>
+                  </div>
+            </div>
+           </a>  
+         </div>
+      </div>
+      
+        
+             			
+				<div class="datagrid">
+					<table id="tableGrid" class="table table-responsive responsive table-stripe">
+						<thead>
+							<tr>
+                                <th>Empresa</th>								
+								<th class="text-center">Id del Sitio</th>   
+								<th class="text-center">Tipo Movimiento</th>
+								<th class="text-center">Fecha Emisión</th>
+								<th class="text-center">Tipo Servicio</th>
+								<th class="text-center col-md-2">Acciones</th>     
+							</tr>
+						</thead>
+						<tbody>
+                             <?php foreach ($rses as $tabla) : ?>
+							<tr>
+                                                            
+								<td><?php echo $this->escapehtml($tabla["COMPANY"]);?></td>  								
+								<td><?php echo $this->escapehtml($tabla["LOCATION_ID"]);?></td>
+								<td><?php echo $this->escapehtml($tabla["TIPOMOVIMIENTO"]);?></td>  
+								<td><?php echo $this->escapehtml($tabla["FECHAEMISION"]);?></td>
+								<td><?php if($tabla['SERVICIO_ID']=="1"){ echo "CISCO";}
+								          if($tabla['SERVICIO_ID']=="2"){ echo "BROADSOFT"; }         
+								 ?></td> 
+								<td class="text-center">
+									<a href="<?php echo $basepath.'/rse/altas/'.$this->escapehtml($tabla["SOLICITUD_ID"]);?>" class="btn-accion btn-primary" title="Editar">   
+										<i class="halflings-icon fa fa-pencil"></i>            
+									</a> 
+									<a href="<?php echo $basepath.'/fcs/altas/'.$this->escapehtml($tabla["SOLICITUD_ID"]);?>" class="btn-accion btn-success" title="Convertir FCS">   
+										<i class="halflings-icon fa fa-exchange"></i>              
+									</a>   
+									<a data-id="<?php echo $this->escapehtml($tabla["SOLICITUD_ID"]);?>" class="btn-accion btn-danger borrar" data-toggle="modal" data-target="#myModal" onclick="getFCS('<?php echo $this->escapehtml($tabla->SOLICITUD_ID);?>');" title="Eliminar">     
+										<i class="halflings-icon fa fa-trash"></i>       
+									</a>																	 
+									<a data-id="<?php echo $this->escapehtml($tabla["SOLICITUD_ID"]);?>" class="btn-accion btn-warning detalleFcs" data-toggle="modal" data-target="#modalFcs" title="Detalles" onclick="getFCS2('<?php echo $this->escapehtml($tabla->SOLICITUD_ID);?>');">           
+										<i class="halflings-icon fa fa-eye"></i>               
+									</a>   
+								</td>   
+							</tr>
+                         <?php endforeach; ?>
+						</tbody>
+				  </table>	  
+				</div>        
+			</div><!--wrapper-->  
+      
+           <!--modal detalle FCS-->
+            <div id="modalFcs" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title" id="gridModalLabel">Detalle RSE</h4>
+			      </div>
+			      <div class="modal-body">
+			        <div class="container-fluid bd-example-row">
+			         <input type="hidden" name="idFCS2" id="idFCS2"></input>
+                               
+				         <div class="row text-right">  
+				         	<a href="#" class="btn-accion btn-info">       
+							 <i class="halflings-icon fa fa-pencil-square-o"></i>              
+							</a>	
+				         </div>
+			         
+				         <div class="row">
+						    <div class="col-md-4">Empresa</div>  
+						    <div id="ajaxCOMPANY" class="col-md-8 txtResalto"></div>  				    
+					    </div>     
+					     <div class="row">
+						    <div class="col-md-4">Fecha de Emisión:</div>
+						    <div id="ajaxFECHAEMISION" class="col-md-8 txtResalto"></div>				    
+					    </div>
+					     <div class="row">
+						    <div class="col-md-4">Nombre del sitio:</div>
+						    <div id="ajaxLOCATION_NAME" class="col-md-8 txtResalto"></div>				    
+					    </div>
+					     <div class="row">
+						    <div class="col-md-4">Numero de sitio:</div>
+						    <div id="ajaxLOCATION" class="col-md-8 txtResalto"></div>				    
+					    </div>
+					     <div class="row">
+						    <div class="col-md-4">Tipo de servicio:</div>
+						    <div id="ajaxTIPOSERVICIO" class="col-md-8 txtResalto"></div>				    
+					    </div>
+					    
+					    
+					    <h3 class="text-center txtResalto">Servicios que se compran</h3>     
+			       
+							<table class="table table-bordered tblFcs">   
+							  <thead>
+							    <tr>
+							      <th>Número de parte</th>
+							      <th>Id de componente</th>
+							      <th>Cantidad</th>
+							      <th>Precio</th>
+							    </tr>
+							  </thead>
+							  <tbody class="tbodyServicios">
+<!--							    <tr>
+							      <th scope="row">UNC.CUAD.BS.901</th>
+							      <td>29242531</td>
+							      <td>1</td>
+							      <td>.01</td>   
+							    </tr>-->
+							    </tbody>
+							</table>    
+			            
+			        </div>
+			      </div>
+			      <div class="clearBoth"></div>  
+			     </div>
+			                
+			   </div>
+			    
+			  </div>
+			
+          <!--modal detalle FCS-->
+          
+          
+          <!--Load-->   
+			    <div id="ark_loader-rse" class="ark_loader">    
+			      <span>CARGANDO</span>
+			      <span>
+			        <div class="sk-fading-circle">
+			          <div class="sk-circle1 sk-circle"></div>
+			          <div class="sk-circle2 sk-circle"></div>
+			          <div class="sk-circle3 sk-circle"></div>
+			          <div class="sk-circle4 sk-circle"></div>
+			          <div class="sk-circle5 sk-circle"></div>
+			          <div class="sk-circle6 sk-circle"></div>
+			          <div class="sk-circle7 sk-circle"></div>
+			          <div class="sk-circle8 sk-circle"></div>
+			          <div class="sk-circle9 sk-circle"></div>
+			          <div class="sk-circle10 sk-circle"></div>
+			          <div class="sk-circle11 sk-circle"></div>
+			          <div class="sk-circle12 sk-circle"></div>
+			        </div>
+			      </span>  
+			    </div>  
+			    <!--load-->      
+      
+      </div><!--container container-fluid-->   
+      
+      
+  <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <form name="borraRSE" id="borraRSE" method="post" action="">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Borrar FCS</h4>
+      </div>
+      <div class="modal-body">
+      <p>¿Está seguro de eliminar el RSE CON id  <span style="font-weight: bold" name="FCS" id="FCS"></span>?</p>
+      </div>
+        <div class="errorMessage text-danger"><span id="erroridFCS"></span></div>
+        <input type="hidden" name="idFCS" id="idFCS"></input>
+      <div class="modal-footer">
+          
+          <button id="borrando" type="submit" class="btn btn-primary">Eliminar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+   
+      
+    <script type="text/javascript">
+    			$(window).load(function() {
+					// Animate loader off screen
+					$("#ark_loader-rse").fadeOut("slow");       
+				});
+				
+                  function getFCS(ID)
+                  {
+                    
+                    $('#FCS').html(ID);  
+                    $('#idFCS').html(ID); 
+                  
+                     var link='<?php echo $basepath;?>/rse/borrar/'+ID;    
+                     //alert(link);
+                     $('#borraRSE').attr("action", link);
+                  }
+                 
+                 function getFCS2(ID)
+                  {
+                    
+                    //$('#FCS2').val(ID);  
+                    $('#idFCS2').val(ID); 
+                    <?php $rutarse=$this->url('rse', array('action'=>'buscarse')); ?>
+                   $.ajax({
+                        url: '<?php echo $rutarse;?>',
+                        data: {
+                          idRSE: ID }                        ,
+                        method: "POST"
+                      })
+                  .done(function( data ) {  
+
+                        var arreglo= JSON.stringify(data.message);
+                        var types = JSON.parse(arreglo);
+                        
+                        var serviciosAsociados= JSON.stringify(data.serviciosasoc);
+                        var servicios = JSON.parse(serviciosAsociados);
+                        
+                        var tipoServicio="";
+                        if (types[0].SERVICIO_ID=='1')
+                        {tipoServicio="CISCO";}
+                        else if (types[0].SERVICIO_ID=='2')
+                        {tipoServicio="BROADSOFT";}
+        
+                     $('#ajaxCOMPANY').html(data.nombreEmpresa); 
+                     $('#ajaxLOCATION_NAME').html(data.nombreSitio); 
+                     $('#ajaxLOCATION').html(types[0].LOCATION_ID); 
+                     $('#ajaxFECHAEMISION').html(types[0].FECHAEMISION); 
+                     $('#ajaxTIPOSERVICIO').html(tipoServicio);
+                     $('#ajaxTIPOSERVICIO').html(tipoServicio);
+                     
+                     $( ".renglon" ).remove();
+                     var inner="";
+                     for(x=0; x<servicios.length; x++) {
+                      inner=inner+"<tr class='renglon'><th scope='row'>"+servicios[x].SERVICIO_ID+"</th><td>"+servicios[x].ID_COMPONENTE+"</td><td>"+servicios[x].CANTIDAD+"</td><td>"+servicios[x].PRECIO+"</td></tr>";
+                    }
+                     $(".tbodyServicios").append(inner);
+                     
+                    
+                    })
+                    .fail(function(data) {
+                      alert( "error ");
+                    });
+     
+                  
+                  }
+                 
+                 
+                 
+                  
+                $(document).ready(function(){
+                    $('.borrar').click(function() {                    
+                    var $this=$(this);     
+                    
+                    var ID = $this.attr('data-id');
+                    //alert(ID);
+                     
+                    
+                    });
+                    
+                    
+                    $('.detalleFCS').click(function() {                    
+                    var $this=$(this);     
+                    
+                    var ID = $this.attr('data-id');
+                    alert(ID);
+                     
+                    
+                    });
+                    
+                    
+                });
+                
+                
+                    
+         
+                
+              
+                          
+	(function(){
+	//$("table").dataTable();
+				
+		/*tabla Grid*/
+			$('#tableGrid').DataTable( {
+			   /* "scrollX": true,*/     
+			   "language": {
+			       "sProcessing":     "Procesando...",
+			        "sLengthMenu":     "Mostrar _MENU_ registros",
+			        "sZeroRecords":    "No se encontraron resultados",
+			        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+			        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+			        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+			        "sInfoPostFix":    "",
+			        "sSearch":         "Buscar:",
+			         "sUrl":            "",
+			         "sInfoThousands":  ",",
+			         "sLoadingRecords": "Cargando...",
+			         "oPaginate": {
+			         "sFirst":    "Primero",
+			         "sLast":     "Último",
+			         "sNext":     "Siguiente",
+			         "sPrevious": "Anterior"
+			         },
+			     "oAria": {  
+			       "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+			       "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+			  }
+			}   
+		} );
+				
+	})(this);
+  
+
+</script>   
+
+<?php 
+   echo $this->headScript()->prependFile($this->basePath('/js/rse.js'));
+   ?>   

@@ -1,0 +1,26 @@
+
+<select name="LOCATION_NAME" id="LOCATION_NAME" class="form-control xlarge chosen-select">   
+<option value="">- - Seleccione un sitio para <?php echo $empresa;?>- -</option>
+<?php foreach ($sitios as $tabla) : ?>
+<?php if (trim(($tabla->LOCATION_NAME))=="") { continue; }?>
+<option value="<?php echo utf8_encode($tabla->LOCATION_NAME); ?>">
+<?php echo utf8_encode($this->escapehtml($tabla->LOCATION_NAME)); ?>
+</option>
+<?php endforeach; ?>  
+</select>
+
+<script>
+	 $('#LOCATION_NAME').on('change', function() {
+   
+  
+                  $.ajax({
+				  method: "POST",
+				  url: "getlocationnumber",
+				  data: { sitio: $( "#LOCATION_NAME" ).val() }
+				})
+				  .done(function( msg ) {
+				    $( "#LOCATION" ).val(msg);
+			   });
+				  
+  });  	
+</script>
